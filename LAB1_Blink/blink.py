@@ -1,3 +1,8 @@
 import machine
+from time import *
 led = machine.Pin("LED", machine.Pin.OUT)
-led.off()
+while True:
+    led.on()
+    sleep(0.5)
+    led.off()
+    sleep(0.5)

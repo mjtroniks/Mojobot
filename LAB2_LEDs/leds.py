@@ -6,16 +6,12 @@ from time import sleep
 #B GP8      B GP27
 #G GP9      G GP26
 # Set up PWM Pin
-led = Pin(9)
+led = Pin(28)
 led_pwm = PWM(led)
-duty_step = 129  # Step size for changing the duty cycle
+duty_step = 255  # Step size for changing the duty cycle
 
-# Set PWM frequency
-frequency = 5000
-led_pwm.freq(frequency)
+while True:
 
-try:
-    while True:
         # Increase the duty cycle gradually
         for duty_cycle in range(0, 65536, duty_step):
             led_pwm.duty_u16(duty_cycle)
@@ -25,9 +21,3 @@ try:
         for duty_cycle in range(65536, 0, -duty_step):
             led_pwm.duty_u16(duty_cycle)
             sleep(0.005)
-
-except KeyboardInterrupt:
-    print("Keyboard interrupt")
-    led_pwm.duty_u16(0)
-    print(led_pwm)
-    led_pwm.deinit()
