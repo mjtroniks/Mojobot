@@ -2,11 +2,11 @@
 from machine import Pin, PWM
 from time import sleep
 #LEDL        LEDR
-#R GP10      R GP28
-#B GP11      B GP27
-#G GP12      G GP26
+#R GP7      R GP28
+#B GP8      B GP27
+#G GP9      G GP26
 # Set up PWM Pin
-led = Pin(8)
+led = Pin(9)
 led_pwm = PWM(led)
 duty_step = 129  # Step size for changing the duty cycle
 
