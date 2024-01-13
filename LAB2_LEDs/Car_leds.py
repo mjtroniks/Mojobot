@@ -37,41 +37,27 @@ pwm_red_left = PWM(led_red_left)
 pwm_green_left = PWM(led_green_left)
 pwm_blue_left = PWM(led_blue_left)
 
-# Set PWM frequency for both LEDs
-frequency = 5000
-pwm_red_right.freq(frequency)
-pwm_green_right.freq(frequency)
-pwm_blue_right.freq(frequency)
-pwm_red_left.freq(frequency)
-pwm_green_left.freq(frequency)
-pwm_blue_left.freq(frequency)
-
-while True:
-    try:
-        # Get user input for the right RGB LED
+try:
+    while True:
+        # Get user input for both LEDs
         r_value_right = int(input("Enter the value for right LED (R) (0-255): "))
         g_value_right = int(input("Enter the value for right LED (G) (0-255): "))
         b_value_right = int(input("Enter the value for right LED (B) (0-255): "))
-        # Get user input for the left RGB LED
         r_value_left = int(input("Enter the value for left LED (R) (0-255): "))
         g_value_left = int(input("Enter the value for left LED (G) (0-255): "))
         b_value_left = int(input("Enter the value for left LED (B) (0-255): "))
-        while True:
 
+        # Map user input to PWM range and set brightness for both LEDs
+        set_rgb_led(pwm_red_right, pwm_green_right, pwm_blue_right, map_user_input(r_value_right), map_user_input(g_value_right), map_user_input(b_value_right))
+        set_rgb_led(pwm_red_left, pwm_green_left, pwm_blue_left, map_user_input(r_value_left), map_user_input(g_value_left), map_user_input(b_value_left))
 
-             # Map user input to PWM range and set right LED brightness
-            set_rgb_led(pwm_red_right, pwm_green_right, pwm_blue_right, map_user_input(r_value_right), map_user_input(g_value_right), map_user_input(b_value_right))
-            # Map user input to PWM range and set left LED brightness
-            set_rgb_led(pwm_red_left, pwm_green_left, pwm_blue_left, map_user_input(r_value_left),map_user_input(g_value_left), map_user_input(b_value_left))
+        sleep(2)
 
-            sleep(2)
+        # Turn off both LEDs
+        turn_off_leds(pwm_red_right, pwm_green_right, pwm_blue_right)
+        turn_off_leds(pwm_red_left, pwm_green_left, pwm_blue_left)
 
-            # Turn off the left LEDs
-            turn_off_leds(pwm_red_left, pwm_green_left, pwm_blue_left)
-            # Turn off the right LEDs
-            turn_off_leds(pwm_red_right, pwm_green_right, pwm_blue_right)
+        sleep(2)
 
-            sleep(2)
-
-    except ValueError:
-        print("Invalid input. Please enter valid numbers.")
+except ValueError:
+    print("Invalid input. Please enter valid numbers.")
