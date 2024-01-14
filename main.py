@@ -1,6 +1,6 @@
 import machine
-from machine import Pin, PWM
-from time import sleep
+from machine import Pin, PWM, time_pulse_us
+import utime
 
 #######################Leds###############################
 led_red_right = Pin(22)
@@ -31,16 +31,16 @@ pwm_red_left.freq(frequency)
 pwm_green_left.freq(frequency)
 pwm_blue_left.freq(frequency)
 ###################Motors#######################################
-""""" Motor 1  """""
+# Motor 1
 motor1_pwm_pin = Pin(10)
 motor1_dir_pin = Pin(12, machine.Pin.OUT)
 motor1_pwm = PWM(motor1_pwm_pin, freq=1000)  # Explicitly set frequency for isolation
 
-""""" Motor 2  """""
+# Motor 2
 motor2_pwm_pin = Pin(11)
 motor2_dir_pin = Pin(13, machine.Pin.OUT)
 motor2_pwm = PWM(motor2_pwm_pin, freq=1000)  # Explicitly set frequency for isolation
-###
+
 def map_user_input(user_input):
     # Ensure user_input is within the valid range
     user_input = max(0, min(255, user_input))
@@ -79,40 +79,54 @@ def stop_motors():
     motor1_pwm.duty_u16(0)
     motor2_pwm.duty_u16(0)
 
+# Ultrasonic sensor pins
+trigger_pin = Pin(14, Pin.OUT)
+echo_pin = Pin(15, Pin.IN)
 
+def get_distance():
+    # Trigger pulse to start measurement
+    trigger_pin.off()
+    utime.sleep_us(2)
+    trigger_pin.on()
+    utime.sleep_us(10)
+    trigger_pin.off()
+
+    # Measure the pulse width on the echo pin
+    pulse_width = time_pulse_us(echo_pin, 1, 30000)  # 30ms timeout (max range)
+
+    # Calculate distance in centimeters
+    distance = (pulse_width / 2) / 29.1
+
+    return round(distance)
 
 while True:
     try:
+        distance_cm = get_distance()
+        utime.sleep_ms(100)  # to avoid measuring too frequently
         # Get user input for motor speed (0 to 100)
         speed_percent = 40
         # Map speed to PWM range
         speed_pwm = map_speed_to_pwm(speed_percent)
-        print(speed_pwm)
+        print(distance_cm)
+        if distance_cm > 5 and distance_cm < 20:
+            # Forward
+            pwm_value = map_user_input(255)
+            set_rgb_led(pwm_red_right, pwm_green_right, pwm_blue_right, 0, pwm_value, 0)  # Green color
+            set_rgb_led(pwm_red_left, pwm_green_left, pwm_blue_left, 0, pwm_value, 0)  # Green color
+            forward()
 
-        # Forward
-        pwm_value = map_user_input(255)
-        set_rgb_led(pwm_red_right, pwm_green_right, pwm_blue_right, 0, pwm_value, 0)  # Green color
-        set_rgb_led(pwm_red_left, pwm_green_left, pwm_blue_left, 0, pwm_value, 0)  # Green color
-        forward()
-        sleep(3)
+        elif distance_cm > 20 and distance_cm < 40:
+            # Backward
+            pwm_value = map_user_input(255)
+            set_rgb_led(pwm_red_right, pwm_green_right, pwm_blue_right, pwm_value, 0, 0)  # Red color
+            set_rgb_led(pwm_red_left, pwm_green_left, pwm_blue_left, pwm_value, 0, 0)  # Red color
+            backward()
 
-        # Stop
-        turn_off_leds(pwm_red_right, pwm_green_right, pwm_blue_right)
-        turn_off_leds(pwm_red_left, pwm_green_left, pwm_blue_left)
-        stop_motors()
-        sleep(3)
-
-        # Backward
-        set_rgb_led(pwm_red_right, pwm_green_right, pwm_blue_right, pwm_value , 0, 0)  # Red color
-        set_rgb_led(pwm_red_left, pwm_green_left, pwm_blue_left, pwm_value, 0, 0)  # Red color
-        backward()
-        sleep(3)
-
-        # Stop
-        turn_off_leds(pwm_red_right, pwm_green_right, pwm_blue_right)
-        turn_off_leds(pwm_red_left, pwm_green_left, pwm_blue_left)
-        stop_motors()
-        sleep(3)
+        else:
+            # Stop
+            turn_off_leds(pwm_red_right, pwm_green_right, pwm_blue_right)
+            turn_off_leds(pwm_red_left, pwm_green_left, pwm_blue_left)
+            stop_motors()
 
     except ValueError:
         print("Invalid input. Please enter a valid number.")

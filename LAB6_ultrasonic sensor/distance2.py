@@ -5,7 +5,7 @@ import utime
 trigger_pin = Pin(14, Pin.OUT)
 echo_pin = Pin(15, Pin.IN)
 
-def measure_distance():
+def get_distance():
     # Trigger pulse to start measurement
     trigger_pin.off()
     utime.sleep_us(2)
@@ -17,15 +17,15 @@ def measure_distance():
     pulse_width = time_pulse_us(echo_pin, 1, 30000)  # 30ms timeout (max range)
 
     # Calculate distance in centimeters
-    distance_cm = (pulse_width / 2) / 29.1
+    distance = (pulse_width / 2) / 29.1
 
-    return distance_cm
+    return distance
 
 try:
     while True:
-        distance = measure_distance()
+        distance_cm = get_distance()
         utime.sleep_ms(100) # to avoid measuring to frequently
-        print("Distance:", distance, "cm")
+        print("Distance:", distance_cm, "cm")
 
 
 except KeyboardInterrupt:
