@@ -1,3 +1,4 @@
+#Sensor cannot measure distances lower than 3cm
 import machine
 import utime
 
