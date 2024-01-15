@@ -1,11 +1,34 @@
+"""
+*****************************
+* Developer: MJtronics
+* Date: 2024-01-15
+*****************************
+
+Description:
+This code controls two motors using PWM signals on a microcontroller.
+It prompts the user for motor speed input (0-100) and demonstrates
+forward and backward movement for both motors with a 3-second duration.
+
+Pin Configuration:
+- Motor 1:
+  - PWM: GP10
+  - Direction: GP12
+
+- Motor 2:
+  - PWM: GP11
+  - Direction: GP13
+
+"""
+
 from machine import Pin, PWM
 from time import sleep
 import machine
 
 def map_speed_to_pwm(speed):
-    # Ensure speed is within the valid range
+    """
+    Ensure motor speed is within the valid range (0-100) and map it to the PWM range.
+    """
     speed = max(0, min(100, speed))
-    # Map the speed to the PWM range
     return int((speed / 100) * 65535)
 
 # Motor 1

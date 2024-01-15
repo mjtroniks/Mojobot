@@ -1,5 +1,5 @@
 from machine import Pin, PWM
-from time import sleep
+
 
 def map_user_input(user_input):
     # Ensure user_input is within the valid range
@@ -11,7 +11,7 @@ def set_led_brightness(pwm, brightness):
     pwm.duty_u16(brightness)
 
 # Define the LED pin
-led_pin = Pin(8)
+led_pin = Pin(20)
 led_pwm = PWM(led_pin)
 
 while True:

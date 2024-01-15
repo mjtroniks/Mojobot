@@ -1,33 +1,61 @@
+"""
+*****************************
+* Developer: MJtronics
+* Date: 2024-01-15
+*****************************
+
+Description:
+This code controls two motors using PWM signals on a microcontroller.
+It defines functions for forward, backward, and stopping the motors.
+The user is prompted for motor speed input (0-100), and the motors
+demonstrate movement in both forward and backward directions with a 3-second duration.
+
+Pin Configuration:
+- Motor 1:
+  - PWM: GP10
+  - Direction: GP12
+
+- Motor 2:
+  - PWM: GP11
+  - Direction: GP13
+
+"""
+
 from machine import Pin, PWM
 from time import sleep
 import machine
 
-
 def map_speed_to_pwm(speed):
-    # Ensure speed is within the valid range
+    """
+    Ensure motor speed is within the valid range (0-100) and map it to the PWM range.
+    """
     speed = max(0, min(100, speed))
-    # Map the speed to the PWM range
     return int((speed / 100) * 65535)
 
-
 def forward():
+    """
+    Move motors forward.
+    """
     motor1_dir_pin.on()
     motor2_dir_pin.on()
     motor1_pwm.duty_u16(speed_pwm)
     motor2_pwm.duty_u16(speed_pwm)
 
-
 def backward():
+    """
+    Move motors backward.
+    """
     motor1_dir_pin.off()
     motor2_dir_pin.off()
     motor1_pwm.duty_u16(speed_pwm)
     motor2_pwm.duty_u16(speed_pwm)
 
-
 def stop_motors():
+    """
+    Stop both motors.
+    """
     motor1_pwm.duty_u16(0)
     motor2_pwm.duty_u16(0)
-
 
 # Motor 1
 motor1_pwm_pin = Pin(10)
@@ -59,8 +87,6 @@ while True:
         sleep(3)
         stop_motors()
         sleep(3)
-
-
 
     except ValueError:
         print("Invalid input. Please enter a valid number.")

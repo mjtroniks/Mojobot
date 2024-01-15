@@ -1,47 +1,19 @@
-#Sensor cannot measure distances lower than 3cm
-import machine
-import utime
+"""
+*****************************
+* Developer: MJtronics
+* Date: 2024-01-15
+*****************************
 
-led = machine.Pin("LED", machine.Pin.OUT)
-led.on()
+Description:
+This code measures the distance using an ultrasonic sensor and prints the result in centimeters.
+The sensor cannot measure distances lower than 3cm.
 
-# Ultrasonic sensor pins
-trigger_pin = machine.Pin(14, machine.Pin.OUT)
-echo_pin = machine.Pin(15, machine.Pin.IN)  # Corrected to IN
+Pin Configuration:
+- Trigger Pin: GP14 (Output)
+- Echo Pin: GP15 (Input)
 
-def get_distance():
-    pulse_time = 0
-    trigger_pin.off()
-    utime.sleep_us(2)
-    trigger_pin.on()
-    utime.sleep_us(10)
-    trigger_pin.off()
+"""
 
-    while echo_pin.value() == 0:
-        pass
-
-    if echo_pin.value() == 1:
-        start = utime.ticks_us()
-        while echo_pin.value() == 1:
-            pass
-        finish = utime.ticks_us()
-        pulse_time = finish - start
-
-    # To calculate the distance we get the pulse_time and divide it by 2
-    # the sound speed in the air (343.2 m/s), that It's equivalent to
-    # 0.034320 cm/us
-
-    distance = pulse_time * 0.034 / 2
-
-    return round(distance)
-
-while True:
-    print("Measuring ")
-    distance_cm = get_distance()
-    utime.sleep_ms(100)  # Adjust sleep duration as needed
-    print(distance_cm)
-
-##########################
 from machine import Pin, time_pulse_us
 import utime
 
@@ -59,18 +31,18 @@ def measure_distance():
 
     # Measure the pulse width on the echo pin
     pulse_width = time_pulse_us(echo_pin, 1, 30000)  # 30ms timeout (max range)
-
+    #speed of sound = 0.034 cm/us
     # Calculate distance in centimeters
-    distance_cm = pulse_width * 0.034 / 2
+    distance = pulse_width * 0.034 / 2 # division by 2 as we only need the time it takes to travel to the object
 
-    return distance_cm
+    return round(distance)
 
 try:
     while True:
-        distance = measure_distance()
-        utime.sleep_ms(100)
-        print("Distance:", distance, "cm")
-
+        print("Measuring distance")
+        distance_cm = measure_distance()
+        print("Distance:", distance_cm, "cm")
+        utime.sleep_ms(100)  # Adjust sleep duration as needed
 
 except KeyboardInterrupt:
     print("Measurement stopped by user")

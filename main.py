@@ -1,7 +1,10 @@
 import machine
 from machine import Pin, PWM, time_pulse_us
 import utime
-
+##################Ultrasonic##############################
+# Ultrasonic sensor pins
+trigger_pin = Pin(14, Pin.OUT)
+echo_pin = Pin(15, Pin.IN)
 #######################Leds###############################
 led_red_right = Pin(22)
 led_green_right = Pin(20)
@@ -40,7 +43,16 @@ motor1_pwm = PWM(motor1_pwm_pin, freq=1000)  # Explicitly set frequency for isol
 motor2_pwm_pin = Pin(11)
 motor2_dir_pin = Pin(13, machine.Pin.OUT)
 motor2_pwm = PWM(motor2_pwm_pin, freq=1000)  # Explicitly set frequency for isolation
+##################Infrared#########################
+# Line following sensors
+sensor1_pin = Pin(2, Pin.IN)#left IR
+sensor2_pin = Pin(3, Pin.IN)#right IR
 
+# Previous sensor states
+prev_sensor1_state = sensor1_pin.value()
+prev_sensor2_state = sensor2_pin.value()
+
+#################Functions#############################
 def map_user_input(user_input):
     # Ensure user_input is within the valid range
     user_input = max(0, min(255, user_input))
@@ -79,9 +91,7 @@ def stop_motors():
     motor1_pwm.duty_u16(0)
     motor2_pwm.duty_u16(0)
 
-# Ultrasonic sensor pins
-trigger_pin = Pin(14, Pin.OUT)
-echo_pin = Pin(15, Pin.IN)
+
 
 def get_distance():
     # Trigger pulse to start measurement
@@ -98,7 +108,7 @@ def get_distance():
     distance = (pulse_width / 2) / 29.1
 
     return round(distance)
-
+#####################Main Program######################
 while True:
     try:
         distance_cm = get_distance()
@@ -108,6 +118,10 @@ while True:
         # Map speed to PWM range
         speed_pwm = map_speed_to_pwm(speed_percent)
         print(distance_cm)
+        # Read current sensor states
+        current_sensor1_state = sensor1_pin.value()#left infrared sensor
+        current_sensor2_state = sensor2_pin.value()#right infrared sensor
+        print("Sensor left "+str(current_sensor1_state)+"  Sensor right "+str(current_sensor2_state))
         if distance_cm > 5 and distance_cm < 20:
             # Forward
             pwm_value = map_user_input(255)

@@ -1,3 +1,24 @@
+"""
+*****************************
+* Developer: MJtronics
+* Date: 2024-01-15
+*****************************
+
+Description:
+This code controls two motors using PWM signals on a microcontroller.
+It demonstrates forward and backward movement for both motors with a 3-second duration.
+
+Pin Configuration:
+- Motor 1:
+  - PWM: GP10
+  - Direction: GP12
+
+- Motor 2:
+  - PWM: GP11
+  - Direction: GP13
+
+"""
+
 from machine import Pin, PWM
 from time import sleep
 import machine
@@ -16,10 +37,12 @@ motor2_pwm = PWM(motor2_pwm_pin)
 pwm_frequency = 1000
 motor1_pwm.freq(pwm_frequency)
 motor2_pwm.freq(pwm_frequency)
-#The Raspberry Pi Pico has a 16-bit PWM resolution,
+
+# The Raspberry Pi Pico has a 16-bit PWM resolution,
 # meaning it supports duty cycle values from 0 to 65535. # max speed
 # The value 32768 used in the code represents a 50% duty cycle,
 # which corresponds to half of the maximum possible PWM value.
+
 while True:
     # Forward for 3 seconds
     motor1_dir_pin.on()
