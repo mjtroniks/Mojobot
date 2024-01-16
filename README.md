@@ -22,9 +22,15 @@
      ![alt text](https://github.com/mjtroniks/Mojobot/blob/9e95f15281b2bd19a1c3d083b66447e7002e6c68/Micropython/Images/uPython.PNG)
  ![alt text](https://github.com/mjtroniks/Mojobot/blob/9e95f15281b2bd19a1c3d083b66447e7002e6c68/Micropython/Images/Enable%20Raspberry%20pico%20support.PNG)
 5. **Create MicroPython File:**
-   - Right-click on your project directory.
-   - Choose "New" > "Python File."
-   - Name your file `main.py`.
+   - Right-click on your project directory. In this example is called myproject
+   - Skip this step if main.py has been created by default as in the image then go to step 6
+   - Otherwise Choose "New" > "Python File." 
+   - Name your file `main.py`. 
+![alt text](https://github.com/mjtroniks/Mojobot/blob/1be29c72ed4249aef5a97618f10fd25058bf16d4/Micropython/Images/upload%20to%20main.PNG)
+
+6. **Download the robot test files:**
+   - Open `main.py` and write your MicroPython code.
+   - Ensure all code is in the `main.py` file.
 
 6. **Write MicroPython Code:**
    - Open `main.py` and write your MicroPython code.
