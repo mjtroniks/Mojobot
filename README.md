@@ -2,7 +2,8 @@
 
 1. **Install PyCharm Community Edition:**
    - Download and install Version 2022.3.1 (Community Edition) https://www.jetbrains.com/pycharm/download/other.html
-  ![alt text]([[https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true](https://github.com/mjtroniks/Mojobot/tree/21e5142747f05f468f1516380a858ff8ceec3c32/Images)](https://github.com/mjtroniks/Mojobot/blob/master/Images/Pycharm_version.PNG))
+   - 
+  ![alt text](Images/Pycharm_version.PNG)
 
 2. **Create a New Project:**
    - Open PyCharm.
