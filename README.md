@@ -1,6 +1,7 @@
-Mojobot by MJtronics Overview:
+Mojobot by MJtronics:
 
 Introduction:
+
 Mojobot by MJtronics is an innovative robot designed for educational purposes and hobbyist projects, providing a versatile platform for learning and experimentation.
 
 Characteristics:
