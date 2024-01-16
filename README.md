@@ -1,3 +1,4 @@
+![Alt Text](URL)
 ### Using PyCharm with Raspberry Pi Pico
 
 ![MicroPython Plugin](https://github.com/your-username/your-repo/images/micropython_plugin.png)
