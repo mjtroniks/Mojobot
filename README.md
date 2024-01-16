@@ -13,14 +13,14 @@
 3. **Configure MicroPython Plugin:**
    - In PyCharm, go to "File" > "Settings."
    - Navigate to "Plugins" and install the MicroPython plugin.
-
+  ![alt text](https://github.com/mjtroniks/Mojobot/blob/9e95f15281b2bd19a1c3d083b66447e7002e6c68/Micropython/Images/plugins.PNG)
 4. **Configure MicroPython Interpreter:**
-   - In Settings, go to "Project: micropython" > "Python Interpreter."
-   - Add a new interpreter with type "MicroPython."
+   - In Settings, go to "Language and Frameworks" > "Micropython."
    - Choose "Raspberry Pi Pico" from the dropdown.
    - Ensure "Autodetect device path" is checked.
    - Click "OK," then "Apply," and finally "OK."
-
+     ![alt text](https://github.com/mjtroniks/Mojobot/blob/9e95f15281b2bd19a1c3d083b66447e7002e6c68/Micropython/Images/uPython.PNG)
+ ![alt text](https://github.com/mjtroniks/Mojobot/blob/9e95f15281b2bd19a1c3d083b66447e7002e6c68/Micropython/Images/Enable%20Raspberry%20pico%20support.PNG)
 5. **Create MicroPython File:**
    - Right-click on your project directory.
    - Choose "New" > "Python File."
