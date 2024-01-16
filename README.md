@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Mojobot by MJtronics is an innovative robot designed for educational purposes and hobbyist projects, providing a versatile platform for learning and experimentation. There is a complete guide so setup and get started in our the Wiki page [a link](https://github.com/mjtroniks/Mojobot/wiki).
+Mojobot by MJtronics is an innovative robot designed for educational purposes and hobbyist projects, providing a versatile platform for learning and experimentation. There is a complete guide so setup and get started in our the [Wiki](https://github.com/mjtroniks/Mojobot/wiki) page 
 
 ## Characteristics
 
