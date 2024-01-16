@@ -9,7 +9,7 @@
    - Click "Create New Project."
    - Name your project (e.g., `micropython`) and choose a location.
    - Click "Create."
-
+    ![alt text](https://github.com/mjtroniks/Mojobot/blob/1a3c709d7b5cfc3e4e3c8cde5dfbf29d99a36698/Micropython/Images/Create%20new%20project.PNG)
 3. **Configure MicroPython Plugin:**
    - In PyCharm, go to "File" > "Settings."
    - Navigate to "Plugins" and install the MicroPython plugin.
