@@ -1,47 +1,76 @@
-### Using PyCharm with Raspberry Pi Pico
+# Mojobot by MJtronics
+ ![alt text](https://github.com/mjtroniks/Mojobot/blob/master/Micropython/Images/cover.PNG)
+## Introduction
 
-1. **Install PyCharm Community Edition:**
-   - Download and install Version 2022.3.1 (Community Edition) https://www.jetbrains.com/pycharm/download/other.html
-   ![alt text](https://github.com/mjtroniks/Mojobot/blob/4cacaacee3f4b19cd4a0e8f0dfe4b6f8a32baeee/Micropython/Images/Pycharm_version.PNG)
+Mojobot by MJtronics is an innovative robot designed for educational purposes and hobbyist projects, providing a versatile platform for learning and experimentation. There is a complete guide to get started with Mojobot in our [Wiki](https://github.com/mjtroniks/Mojobot/wiki) page 
 
-2. **Create a New Project:**
-   - Open PyCharm.
-   - Click "Create New Project."
-   - Name your project (e.g., `micropython`) and choose a location.
-   - Click "Create."
-    ![alt text](https://github.com/mjtroniks/Mojobot/blob/1a3c709d7b5cfc3e4e3c8cde5dfbf29d99a36698/Micropython/Images/Create%20new%20project.PNG)
-3. **Configure MicroPython Plugin:**
-   - In PyCharm, go to "File" > "Settings."
-   - Navigate to "Plugins" and install the MicroPython plugin.
-  ![alt text](https://github.com/mjtroniks/Mojobot/blob/9e95f15281b2bd19a1c3d083b66447e7002e6c68/Micropython/Images/plugins.PNG)
-4. **Configure MicroPython Interpreter:**
-   - In Settings, go to "Language and Frameworks" > "Micropython."
-   - Choose "Raspberry Pi Pico" from the dropdown.
-   - Ensure "Autodetect device path" is checked.
-   - Click "OK," then "Apply," and finally "OK."
-     ![alt text](https://github.com/mjtroniks/Mojobot/blob/9e95f15281b2bd19a1c3d083b66447e7002e6c68/Micropython/Images/uPython.PNG)
- ![alt text](https://github.com/mjtroniks/Mojobot/blob/9e95f15281b2bd19a1c3d083b66447e7002e6c68/Micropython/Images/Enable%20Raspberry%20pico%20support.PNG)
-5. **Create MicroPython File:**
-   - Right-click on your project directory. In this example is called myproject
-   - Skip this step if main.py has been created by default as in the image then go to step 6
-   - Otherwise Choose "New" > "Python File." 
-   - Name your file `main.py`. 
-![alt text](https://github.com/mjtroniks/Mojobot/blob/1be29c72ed4249aef5a97618f10fd25058bf16d4/Micropython/Images/upload%20to%20main.PNG)
+## Get started
 
-6. **Download the robot test files:**
-   - Open `main.py` and write your MicroPython code.
-   - Ensure all code is in the `main.py` file.
+- **Micropython:** The IDE used in this example is Pycharm 2022.3.1. Visit our [Wiki](https://github.com/mjtroniks/Mojobot/wiki) for a step by step setup. 
+- **C++:** Under development
+- **Makecode:** Under development
 
-6. **Write MicroPython Code:**
-   - Open `main.py` and write your MicroPython code.
-   - Ensure all code is in the `main.py` file.
+## Characteristics
 
-7. **Run MicroPython Code:**
-   - Connect your Raspberry Pi Pico.
-   - Right-click in the editor and choose "Run..." to execute your MicroPython code.
+- **Motors:** Rear-drive high-speed GA12-N20 DC micro gear deceleration motors.
+- **Assembly:** Only batteries, MPU6050, and Raspberry Pi Pico need very simple assembly.
 
-8. **Additional Notes:**
-   - **Main File Limitation:**
-     - MicroPython programs for Raspberry Pi Pico must be named `main.py`. Ensure your main code is in a file named `main.py` for the bootloader to execute it on startup.
+## Parameters
 
-Now, you have successfully set up and run MicroPython code on Raspberry Pi Pico using PyCharm.
+- **Voltage:** 3.5V to 5V.
+- **Dimension:** 84mm x 84mm x 40mm.
+- **Motor Type:** GA12-N20 DC micro gear deceleration motors (300 RPM).
+- **Ultrasonic Sensor:** HC-SR04 (2cm to 400cm range).
+- **RGB Headlights:** Two RGB LEDs.
+- **Infrared Control:** Pins for infrared components.
+
+## Pin Summary
+
+### Components List (Included):
+
+- 1 x Mojobot car
+- 1 x Battery Holder
+- 1 x HC-SR04 Ultrasonic Sensor
+- 1 x Raspberry Pi Pico
+- 1 x MPU6050
+
+### Pins Description
+
+**Motors:**
+
+- Motor 1 PWM (GP10) - Controls the speed of Motor 1.
+- Motor 1 Direction (GP12) - Controls the direction of Motor 1.
+- Motor 2 PWM (GP11) - Controls the speed of Motor 2.
+- Motor 2 Direction (GP13) - Controls the direction of Motor 2.
+
+**Ultrasonic Sensor:**
+
+- Trigger (GP14) - Initiates ultrasonic distance measurement.
+- Echo (GP15) - Measures the duration of the ultrasonic pulse.
+
+**RGB Headlights:**
+
+- Right LED (GP22, GP20, GP21) - RGB pins for the right LED.
+- Left LED (GP7, GP9, GP8) - RGB pins for the left LED.
+
+**Infrared Control:**
+
+- Left Infrared Sensor (GP2) - Input pin for the left infrared sensor.
+- Right Infrared Sensor (GP3) - Input pin for the right infrared sensor.
+
+**MPU6050:**
+
+- SCL GP19
+- SDA GP18
+
+### Unused Pins (Pico):
+
+**Used Pins:** GP2, GP3, GP7, GP8, GP9, GP10, GP11, GP12, GP13, GP14, GP15, GP20, GP21, GP22.
+
+**Unused Available GPIO Pins:** GP0, GP1, GP4, GP5, GP6, GP16, GP17, GP26, GP27, GP28, GP29.
+
+## Applications
+
+Mojobot is ideal for educational purposes, allowing users to explore robotics, sensor integration, and programming. It serves as a great platform for learning about motor control, ultrasonic sensing, and infrared communication.
+
+Mojobot is a versatile and user-friendly robot that encourages creativity and experimentation in the field of robotics.
