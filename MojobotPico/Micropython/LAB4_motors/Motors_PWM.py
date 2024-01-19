@@ -38,7 +38,7 @@ pwm_frequency = 1000
 motor1_pwm.freq(pwm_frequency)
 motor2_pwm.freq(pwm_frequency)
 
-# The Raspberry Pi Pico has a 16-bit PWM resolution,
+# The Raspberry Pi MojobotPico has a 16-bit PWM resolution,
 # meaning it supports duty cycle values from 0 to 65535. # max speed
 # The value 32768 used in the code represents a 50% duty cycle,
 # which corresponds to half of the maximum possible PWM value.

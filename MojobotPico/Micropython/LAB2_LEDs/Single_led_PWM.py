@@ -5,7 +5,7 @@
 *****************************
 
 Description:
-This code demonstrates PWM (Pulse Width Modulation) on a Raspberry Pi Pico using MicroPython.
+This code demonstrates PWM (Pulse Width Modulation) on a Raspberry Pi MojobotPico using MicroPython.
 It gradually increases and decreases the duty cycle of an LED connected to pin GP28, creating
 a smooth fading effect.
 
