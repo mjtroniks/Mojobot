@@ -19,21 +19,21 @@ while True:
     current_right_sensor_state = right_sensor_pin.value()
 
     # Check for changes in left sensor state
-    if current_left_sensor_state == 0 and prev_left_sensor_state == 1:
+    if current_left_sensor_state == 1 and current_right_sensor_state == 0:
         print("Left sensor detected a line!")
         led_left.on()  # Turn on left LED
-    elif current_left_sensor_state == 1 and prev_left_sensor_state == 0:
-        led_left.off()  # Turn off left LED
-
+        led_right.off()
+    elif current_left_sensor_state == 0 and current_right_sensor_state == 1:
+        led_left.off()  # Turn on left LED
+        led_right.on()
     # Check for changes in right sensor state
-    if current_right_sensor_state == 0 and prev_right_sensor_state == 1:
+    elif current_left_sensor_state == 0 and current_right_sensor_state == 0:
         print("Right sensor detected a line!")
         led_right.on()  # Turn on right LED
     elif current_right_sensor_state == 1 and prev_right_sensor_state == 0:
-        led_right.off()  # Turn off right LED
+        led_left.off()  # Turn on left LED
+        led_right.off()
+    elif current_right_sensor_state == 1 and prev_right_sensor_state == 1:
+        led_left.on()  # Turn on left LED
+        led_right.on()
 
-    # Update previous sensor states
-    prev_left_sensor_state = current_left_sensor_state
-    prev_right_sensor_state = current_right_sensor_state
-
-    utime.sleep_ms(100)  # Wait for a short duration before checking again

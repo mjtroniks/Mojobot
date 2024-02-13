@@ -1,7 +1,6 @@
 from machine import Pin, PWM
-from time import sleep
 import machine
-
+import utime
 # Sensor pins
 left_sensor_pin = Pin(2, Pin.IN)
 right_sensor_pin = Pin(3, Pin.IN)
@@ -28,6 +27,9 @@ pwm_frequency = 1000
 motor1_pwm.freq(pwm_frequency)
 motor2_pwm.freq(pwm_frequency)
 
+trigger_pin = Pin(14, Pin.OUT)
+echo_pin = Pin(15, Pin.IN)
+
 def motors_speed(left_wheel_speed, right_wheel_speed):
     # Control direction
     motor1_dir_pin.value(1 if left_wheel_speed > 0 else 0)
@@ -45,7 +47,7 @@ def motors_speed(left_wheel_speed, right_wheel_speed):
 def get_tracking():
     left = left_sensor_pin.value()
     right = right_sensor_pin.value()
-
+    print("left ",left,"  right",right)
     if left == 1 and right == 1:
         return 0
     elif left == 0 and right == 1:
@@ -56,6 +58,22 @@ def get_tracking():
         return 11
     else:
         print("Unknown ERROR")
+
+def measure_distance():
+    # Trigger pulse to start measurement
+    trigger_pin.off()
+    utime.sleep_us(2)
+    trigger_pin.on()
+    utime.sleep_us(10)
+    trigger_pin.off()
+
+    # Measure the pulse width on the echo pin
+    pulse_width = time_pulse_us(echo_pin, 1, 30000)  # 30ms timeout (max range)
+    #speed of sound = 0.034 cm/us
+    # Calculate distance in centimeters
+    distance = pulse_width * 0.034 / 2 # division by 2 as we only need the time it takes to travel to the object
+
+    return round(distance)
 
 while True:
     tracking_state = get_tracking()
@@ -73,42 +91,15 @@ while True:
         left_led_pin.off()  # Turn on left LED
         right_led_pin.on()
         lastState = tracking_state
+    elif tracking_state == 00:
+        print("Both triggered")
+        left_led_pin.on()
+        right_led_pin.on()
+        motors_speed(50, 50)
     elif tracking_state == 11:
         print("Both triggered")
-
-        if lastState == 1:
-            print("Off track")
-            motors_speed(30, 5)
-            left_led_pin.off()
-            right_led_pin.off()  # Turn off both LEDs
-        elif lastState == 10:
-            print("Off track")
-            motors_speed(5, 30)
-            left_led_pin.off()
-            right_led_pin.off()  # Turn off both LEDs
-        elif lastState == 11:
-            print("Off track")
-            motors_speed(5, 30)
-            left_led_pin.off()
-            right_led_pin.off()  # Turn off both LEDs
-        lastState = tracking_state
-    elif tracking_state == 00:
-        if lastState == 1:
-            print("Off track")
-            motors_speed(30, 5)
-            left_led_pin.off()
-            right_led_pin.off()  # Turn off both LEDs
-        elif lastState == 10:
-            print("Off track")
-            motors_speed(5, 30)
-            left_led_pin.off()
-            right_led_pin.off()  # Turn off both LEDs
-        elif lastState == 11:
-            print("Off track")
-            motors_speed(5, 30)
-            left_led_pin.off()
-            right_led_pin.off()  # Turn off both LEDs
+        left_led_pin.on()
+        right_led_pin.on()
+        motors_speed(50, 50)
 
 
-
-    #sleep(0.1)  # Adjust the delay as needed for your application
