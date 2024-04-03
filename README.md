@@ -6,7 +6,7 @@ Mojobot by MJtronics is an innovative robot designed for educational purposes an
 
 ## Get started
 
-- **Micropython:** The IDE used in this example is Pycharm 2022.3.1. Visit our [Wiki](https://github.com/mjtroniks/Mojobot/wiki) for a step by step setup. 
+- **[Micropython:](https://github.com/mjtroniks/Mojobot/wiki)** The IDE used in this example is Pycharm 2022.3.1. Visit our [Wiki](https://github.com/mjtroniks/Mojobot/wiki) for a step by step setup. 
 - **C++:** Under development
 - **Makecode:** Under development
 
