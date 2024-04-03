@@ -24,34 +24,6 @@ Mojobot by MJtronics is an innovative robot designed for educational purposes an
 - **Infrared Control:** Two infrared sensors for line detection.
 - **Microcontroller:** Supports Raspberry pico and Raspberry pico W.
 
-## Pin Summary
-
-Right led 
-R          pin 22
-G          pin 21
-B          pin 20
-
-Left led 
-R          pin 7
-G          pin 8
-B          pin 9
-
-Motors
-M1 left 
-PWM        pin 10
-direction  pin 12
-
-M2 right 
-PWM        pin 11
-direction  pin 13
-
-Line following sensors
-left       pin 2
-right      pin 3
-
-Ultrsonic sensor
-Trigger    pin 14
-Echo       pin 15
 
 ### Components List (Included):
 
@@ -77,8 +49,8 @@ Echo       pin 15
 
 **RGB Headlights:**
 
-- Right LED (GP22, GP20, GP21) - RGB pins for the right LED.
-- Left LED (GP7, GP9, GP8) - RGB pins for the left LED.
+- Right LED (GP22, GP21, GP20) - RGB pins for the right LED.
+- Left LED (GP7, GP8, GP9) - RGB pins for the left LED.
 
 **Infrared Control:**
 
