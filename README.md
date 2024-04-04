@@ -1,5 +1,5 @@
 # Mojobot by MJtronics
- ![alt text](MojobotPico/Micropython/Images/cover.PNG)
+ ![alt text](https://github.com/mjtroniks/Mojobot/blob/2ac927f36ef0e0bd6abeae07d2c2dff75f208b2e/MojobotPico/Micropython/Images/Assembly%20v21.png)
 ## Introduction
 
 Mojobot by MJtronics is an innovative robot designed for educational purposes and hobbyist projects, providing a versatile platform for learning and experimentation. 
