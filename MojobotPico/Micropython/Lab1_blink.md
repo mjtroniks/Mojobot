@@ -61,8 +61,8 @@ This tutorial is a quick guide to blinking the onboard LED using a Raspberry Pi 
 ![Install pico libraries](https://github.com/mjtroniks/Mojobot/assets/91319956/4afc2357-91ee-4ed1-ba7e-02b28793df8d)
 
 9. Paste the following code on the main file
-         ```python
-   
+
+       ```python
          import machine
          from time import *
          
