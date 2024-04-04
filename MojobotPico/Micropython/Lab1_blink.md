@@ -34,7 +34,11 @@ Community Support: Benefits from a large and active community for resources, tut
 
 This tutorial is a quick guide to blinking an external LED using a Raspberry Pi Pico microcontroller. The experiment can be simulated or implemented practically.
 
-![Single led](https://github.com/mjtroniks/Mojobot/blob/187de62fef51af3a482342244b06f739f5f322e9/MojobotPico/Micropython/Images/pico.mp4)
+
+
+https://github.com/mjtroniks/Mojobot/assets/91319956/98294423-8eab-4246-b313-80728f3e9773
+
+
 
 ## Instructions
 
