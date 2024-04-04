@@ -61,29 +61,30 @@ This tutorial is a quick guide to blinking the onboard LED using a Raspberry Pi 
 ![Install pico libraries](https://github.com/mjtroniks/Mojobot/assets/91319956/4afc2357-91ee-4ed1-ba7e-02b28793df8d)
 
 9. Paste the following code on the main file
+       ```python
+   
+         import machine
+         from time import *
+         
+         # Define the LED pin
+         led = machine.Pin("LED", machine.Pin.OUT)
+         
+         # Main loop to toggle the LED
+         while True:
+             # Turn on the LED
+             led.on()
+         
+             # Pause for 0.5 seconds
+             sleep(0.5)
+         
+             # Turn off the LED
+             led.off()
+         
+             # Pause for 0.5 seconds
+             sleep(0.5)
+    
     ![Downloading Examples](https://github.com/mjtroniks/Mojobot/assets/91319956/a793520d-d099-4fe4-8bf9-e2bdad74fefe)
 
-   ```python
-   
-   import machine
-   from time import *
-   
-   # Define the LED pin
-   led = machine.Pin("LED", machine.Pin.OUT)
-   
-   # Main loop to toggle the LED
-   while True:
-       # Turn on the LED
-       led.on()
-   
-       # Pause for 0.5 seconds
-       sleep(0.5)
-   
-       # Turn off the LED
-       led.off()
-   
-       # Pause for 0.5 seconds
-       sleep(0.5)
 
 11. Run the code by clicking on Run => Run Flash
 
