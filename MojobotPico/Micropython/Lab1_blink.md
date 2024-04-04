@@ -8,7 +8,7 @@ This tutorial is a quick guide to blinking an external LED using a Raspberry Pi 
 
 The robot LEDs are wired as in the following diagram:
 
-![Blink Diagram](https://github.com/mjtroniks/Mojobot/blob/4445f12cad92337dabb1a75218ab8db92b7634c7/MojobotPico/Micropython/Images/LED%20setup%20breadboard.jpg)
+![LEDs on Breadboard](https://github.com/mjtroniks/Mojobot/blob/4445f12cad92337dabb1a75218ab8db92b7634c7/MojobotPico/Micropython/Images/LED%20setup%20breadboard.jpg)
 
 Left LED Connections:
 
@@ -23,7 +23,7 @@ Green (G): Attach the leg succeeding the red leg to a 330 ohm resistor. Connect 
 Blue (B): Link the leg succeeding the green leg to a 330 ohm resistor. Connect the other side of the resistor to GPIO pin 20 on the Raspberry Pi Pico.
 This arrangement ensures that each color leg of the LED is connected through a 330 ohm resistor to manage the current flow, allowing for independent control of the intensity of each color (red, green, and blue) for both the left and right LEDs.
 
-![Robot Leds](https://github.com/mjtroniks/Mojobot/blob/cd53ea3b82a8e93e5dd9dff7ae1ecf58c41ba8f0/MojobotPico/Micropython/Images/LEDs%20on%20robot.PNG)
+![Robot Leds](https://github.com/mjtroniks/Mojobot/blob/dcf25ff05e4eff7f64864f8ec74484e06fddeac2/MojobotPico/Micropython/Images/left%20right%20led.PNG)
 
 After setting up the LEDs, let's write the code. 
 
