@@ -1,5 +1,5 @@
 # Mojobot by MJtronics
- ![alt text](MojobotPico/Micropython/Images/cover.PNG)
+ ![alt text](https://github.com/mjtroniks/Mojobot/blob/4d80b0dbb44b8dbe23df34b33c5dae10a4e39261/MojobotPico/Micropython/Images/Assembly.PNG)
 ## Introduction
 
 Mojobot by MJtronics is an innovative robot designed for educational purposes and hobbyist projects, providing a versatile platform for learning and experimentation. 
@@ -12,18 +12,18 @@ Mojobot by MJtronics is an innovative robot designed for educational purposes an
 ## Characteristics
 
 - **Motors:** Rear-drive high-speed GA12-N20 DC micro gear deceleration motors.
-- **Assembly:** Only batteries, MPU6050, and Raspberry Pi Pico need very simple assembly.
+- **Assembly:** Battery holder, batteries and Raspberry Pi Pico. Very simple assembly :)
 
-## Parameters
+## Robot Specs
 
 - **Voltage:** 3.5V to 5V.
 - **Dimension:** 84mm x 84mm x 40mm.
 - **Motor Type:** GA12-N20 DC micro gear deceleration motors (300 RPM).
 - **Ultrasonic Sensor:** HC-SR04 (2cm to 400cm range).
 - **RGB Headlights:** Two RGB LEDs.
-- **Infrared Control:** Pins for infrared components.
+- **Infrared Control:** Two infrared sensors for line detection.
+- **Microcontroller:** Supports Raspberry pico and Raspberry pico W.
 
-## Pin Summary
 
 ### Components List (Included):
 
@@ -49,8 +49,8 @@ Mojobot by MJtronics is an innovative robot designed for educational purposes an
 
 **RGB Headlights:**
 
-- Right LED (GP22, GP20, GP21) - RGB pins for the right LED.
-- Left LED (GP7, GP9, GP8) - RGB pins for the left LED.
+- Right LED (GP22, GP21, GP20) - RGB pins for the right LED.
+- Left LED (GP7, GP8, GP9) - RGB pins for the left LED.
 
 **Infrared Control:**
 
