@@ -62,7 +62,8 @@ This tutorial is a quick guide to blinking the onboard LED using a Raspberry Pi 
 
 9. Paste the following code on the main file
 
-       ```python
+    ```python
+
          import machine
          from time import *
          
@@ -83,7 +84,7 @@ This tutorial is a quick guide to blinking the onboard LED using a Raspberry Pi 
              # Pause for 0.5 seconds
              sleep(0.5)
     
-    ![Downloading Examples](https://github.com/mjtroniks/Mojobot/assets/91319956/a793520d-d099-4fe4-8bf9-e2bdad74fefe)
+![Downloading Examples](https://github.com/mjtroniks/Mojobot/assets/91319956/a793520d-d099-4fe4-8bf9-e2bdad74fefe)
 
 
 11. Run the code by clicking on Run => Run Flash
