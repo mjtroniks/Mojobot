@@ -29,12 +29,14 @@ This tutorial is a quick guide to blinking the onboard LED using a Raspberry Pi 
 1. Make sure Python 3 or above has been installed on your computer as described in LAB0_IDE Setup
    You can verify Python is installed by typing CMD in the search box next to the Windows logo
    
-    ![CMD](https://github.com/mjtroniks/Mojobot/assets/91319956/02b7292a-49ee-4ba3-920f-b8da121474a0)
    
+   ![Capture](https://github.com/mjtroniks/Mojobot/assets/91319956/375be4bb-851f-46e2-ae6b-ec9ec7bcc99e)
+
 
    Then type python --version as in the picture below
     
     ![python verification_LI](https://github.com/mjtroniks/Mojobot/assets/91319956/4fcb745d-56cd-485c-ae5f-e6ecd9254859)
+   
    If the python version is displayed you are ready to go. Otherwise proceed to Lab0_IDE Setup Instructions
 
 3. Connect Raspberry Pi Pico to your Computer: Use a USB cable to connect your Raspberry Pi Pico to your computer.
