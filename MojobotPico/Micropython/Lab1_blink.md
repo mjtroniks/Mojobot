@@ -36,7 +36,7 @@ This tutorial is a quick guide to blinking an external LED using a Raspberry Pi 
 
 
 
-https://github.com/mjtroniks/Mojobot/assets/91319956/98294423-8eab-4246-b313-80728f3e9773
+https://github.com/mjtroniks/Mojobot/assets/91319956/337c32e1-be6a-4129-96bc-3f552dda97c5
 
 
 
