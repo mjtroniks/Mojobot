@@ -62,45 +62,28 @@ This tutorial is a quick guide to blinking the onboard LED using a Raspberry Pi 
 
 9. Paste the following code on the main file
     ![Downloading Examples](https://github.com/mjtroniks/Mojobot/assets/91319956/a793520d-d099-4fe4-8bf9-e2bdad74fefe)
-```python
-   """
-*****************************
-* Developer: MJtronics
-* Date: 2024-01-15
-*****************************
 
-Description:
-This code controls an LED using the machine module on a microcontroller.
-The LED is intended to blink on and off repeatedly, with each state lasting
-for 0.5 seconds, creating a visible blinking effect.
-
-Expected Results:
-- The LED should turn on for 0.5 seconds.
-- Then, the LED should turn off for 0.5 seconds.
-- This on-off cycle should repeat indefinitely.
-
-"""
-
-import machine
-from time import *
-
-# Define the LED pin
-led = machine.Pin("LED", machine.Pin.OUT)
-
-# Main loop to toggle the LED
-while True:
-    # Turn on the LED
-    led.on()
-
-    # Pause for 0.5 seconds
-    sleep(0.5)
-
-    # Turn off the LED
-    led.off()
-
-    # Pause for 0.5 seconds
-    sleep(0.5)
-
+   ```python
+   
+   import machine
+   from time import *
+   
+   # Define the LED pin
+   led = machine.Pin("LED", machine.Pin.OUT)
+   
+   # Main loop to toggle the LED
+   while True:
+       # Turn on the LED
+       led.on()
+   
+       # Pause for 0.5 seconds
+       sleep(0.5)
+   
+       # Turn off the LED
+       led.off()
+   
+       # Pause for 0.5 seconds
+       sleep(0.5)
 
 11. Run the code by clicking on Run => Run Flash
 
@@ -111,3 +94,7 @@ while True:
 12. The output should be displayed as in the video below
 
 https://github.com/mjtroniks/Mojobot/assets/91319956/337c32e1-be6a-4129-96bc-3f552dda97c5
+
+
+
+
