@@ -16,81 +16,95 @@ Low Power: Designed for energy efficiency, suitable for battery-powered applicat
 
 Development Environment: Supported by MicroPython, C/C++, and CircuitPython for firmware development.
 
-## Capabilities:
 
-Versatile I/O: GPIO pins support digital/analog I/O, PWM output, and communication with external devices.
 
-Real-Time Performance: Dual-core processor and high clock speed enable real-time processing.
 
-Expandability: Easily expandable with additional hardware components for various projects.
-
-Low-Cost: Affordable pricing and extensive software support make it accessible for hobbyists and professionals.
-
-Community Support: Benefits from a large and active community for resources, tutorials, and projects.
 
 ![MicroController](https://github.com/mjtroniks/Mojobot/blob/d91b9694c7622a41186362987df0de14fe8cf188/MojobotPico/Micropython/Images/Raspberry-Pi-PICO-Pinout-Diagram.jpeg)
 
 ## Overview
 
-This tutorial is a quick guide to blinking an external LED using a Raspberry Pi Pico microcontroller. The experiment can be simulated or implemented practically.
+This tutorial is a quick guide to blinking the onboard LED using a Raspberry Pi Pico microcontroller. 
+
+1. Make sure Python 3 or above has been installed on your computer as described in LAB0_IDE Setup
+   You can verify Python is installed by typing CMD in the search box next to the Windows logo
+    ![CMD](https://github.com/mjtroniks/Mojobot/assets/91319956/02b7292a-49ee-4ba3-920f-b8da121474a0)
+
+   Then type python --version as in the picture below
+    
+    ![python verification_LI](https://github.com/mjtroniks/Mojobot/assets/91319956/4fcb745d-56cd-485c-ae5f-e6ecd9254859)
+   If the python version is displayed you are ready to go. Otherwise proceed to Lab0_IDE Setup Instructions
+
+2. Connect Raspberry Pi Pico to your Computer: Use a USB cable to connect your Raspberry Pi Pico to your computer.
+
+3. Make sure Pycharm IDE is Installed and configured as in LAB0_IDE Setup
+
+4. Create a project and make sure create main.py is selected
+
+![Create new project](https://github.com/mjtroniks/Mojobot/assets/91319956/465d9c90-44bc-4e4b-89c8-d8ddb3b7082d)
+
+5. Install Micropython plugin by Clicking File => Settings => Plugins
+ You will be asked to restart the Pycharm IDE. Click on restart.
+   ![plugins](https://github.com/mjtroniks/Mojobot/assets/91319956/3e8270cd-9e98-4446-b13d-6ac5d24681b3)
+   
+6. Enable micropython support by clicking on File => Settings => Language and frameworks
+     ![uPython](https://github.com/mjtroniks/Mojobot/assets/91319956/8dad115b-7f8a-4a62-9f97-2b02803d9563)
+
+7. Select Raspberry pico from the drop down list and click okay to close the window
+   ![Enable Raspberry pico support](https://github.com/mjtroniks/Mojobot/assets/91319956/bc012dd5-a74d-40b4-81e3-ab16f3814af1)
+
+8. Click on the blue message to install the Raspberry pico libraries
+   
+![Install pico libraries](https://github.com/mjtroniks/Mojobot/assets/91319956/4afc2357-91ee-4ed1-ba7e-02b28793df8d)
+
+9. Paste the following code on the main file
+    ![Downloading Examples](https://github.com/mjtroniks/Mojobot/assets/91319956/a793520d-d099-4fe4-8bf9-e2bdad74fefe)
+```python
+   """
+*****************************
+* Developer: MJtronics
+* Date: 2024-01-15
+*****************************
+
+Description:
+This code controls an LED using the machine module on a microcontroller.
+The LED is intended to blink on and off repeatedly, with each state lasting
+for 0.5 seconds, creating a visible blinking effect.
+
+Expected Results:
+- The LED should turn on for 0.5 seconds.
+- Then, the LED should turn off for 0.5 seconds.
+- This on-off cycle should repeat indefinitely.
+
+"""
+
+import machine
+from time import *
+
+# Define the LED pin
+led = machine.Pin("LED", machine.Pin.OUT)
+
+# Main loop to toggle the LED
+while True:
+    # Turn on the LED
+    led.on()
+
+    # Pause for 0.5 seconds
+    sleep(0.5)
+
+    # Turn off the LED
+    led.off()
+
+    # Pause for 0.5 seconds
+    sleep(0.5)
 
 
+11. Run the code by clicking on Run => Run Flash
+
+ 
+![Screenshot (5)](https://github.com/mjtroniks/Mojobot/assets/91319956/2d5ea12d-c6b4-4eed-b0b7-bd88c9130730)
+
+
+12. The output should be displayed as in the video below
 
 https://github.com/mjtroniks/Mojobot/assets/91319956/337c32e1-be6a-4129-96bc-3f552dda97c5
-
-
-
-## Instructions
-
-The robot left LED are wired as in the following diagram:
-
-![Single led](https://github.com/mjtroniks/Mojobot/blob/d91b9694c7622a41186362987df0de14fe8cf188/MojobotPico/Micropython/Images/Single%20led_bb.jpg)
-
-Left LED Connections:
-
-Red (R): Connect the leg adjacent to the flat side of the LED to a 330 ohm resistor. Connect the other side of the resistor to GPIO pin 7 on the Raspberry Pi Pico. This pin regulates the intensity of the red color.
-Ground: Link the next leg after the red leg directly to the ground (GND) on the Raspberry Pi Pico.
-Blue (B): Attach the leg succeeding the ground connection to a 330 ohm resistor. Connect the other side of the resistor to GPIO pin 9 on the Raspberry Pi Pico. This pin controls the intensity of the blue color.
-Green (G): Link the leg succeeding the blue leg to a 330 ohm resistor. Connect the other side of the resistor to GPIO pin 8 on the Raspberry Pi Pico. This pin manages the intensity of the green color.
-Right LED Connections:
-
-Red (R): Connect the leg adjacent to the flat side of the LED to a 330 ohm resistor. Link the other side of the resistor to GPIO pin 22 on the Raspberry Pi Pico.
-Green (G): Attach the leg succeeding the red leg to a 330 ohm resistor. Connect the other side of the resistor to GPIO pin 21 on the Raspberry Pi Pico.
-Blue (B): Link the leg succeeding the green leg to a 330 ohm resistor. Connect the other side of the resistor to GPIO pin 20 on the Raspberry Pi Pico.
-This arrangement ensures that each color leg of the LED is connected through a 330 ohm resistor to manage the current flow, allowing for independent control of the intensity of each color (red, green, and blue) for both the left and right LEDs.
-
-![Robot Leds](https://github.com/mjtroniks/Mojobot/blob/dcf25ff05e4eff7f64864f8ec74484e06fddeac2/MojobotPico/Micropython/Images/left%20right%20led.PNG)
-
-After setting up the LEDs, let's write the code. 
-
-
-
-```python
-from machine import Pin
-import utime
-
-led = Pin(16, Pin.OUT)
-
-while True:
-    led.toggle()
-    utime.sleep_ms(1000)
-
-## Other Pin Functions
-
-Another approach to control the LED's state is by utilizing the [value() function](https://docs.micropython.org/en/latest/library/machine.Pin.html#machine.Pin.value).
-
-Below is the code snippet demonstrating this method:
-
-```python
-from machine import Pin
-import utime
-
-led = Pin(16, Pin.OUT)
-
-while True:
-    led.value(1)
-    utime.sleep_ms(1000)
-    led.value(0)
-    utime.sleep_ms(1000)
-
-
