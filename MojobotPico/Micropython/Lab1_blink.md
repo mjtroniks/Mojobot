@@ -1,14 +1,46 @@
 # Blink External LED
 
+## Introduction
+
+The Raspberry Pi Pico is a low-cost microcontroller board developed by the Raspberry Pi Foundation.
+
+## Key Features:
+
+Microcontroller: Powered by the RP2040 chip, featuring a dual-core ARM Cortex-M0+ processor running at up to 133MHz.
+
+Connectivity: Offers 26 multifunction GPIO pins, USB 1.1 support, UART, SPI, and I2C interfaces.
+
+Memory: Equipped with 264KB of embedded SRAM and 2MB of external flash memory.
+
+Low Power: Designed for energy efficiency, suitable for battery-powered applications and IoT devices.
+
+Development Environment: Supported by MicroPython, C/C++, and CircuitPython for firmware development.
+
+## Capabilities:
+
+Versatile I/O: GPIO pins support digital/analog I/O, PWM output, and communication with external devices.
+
+Real-Time Performance: Dual-core processor and high clock speed enable real-time processing.
+
+Expandability: Easily expandable with additional hardware components for various projects.
+
+Low-Cost: Affordable pricing and extensive software support make it accessible for hobbyists and professionals.
+
+Community Support: Benefits from a large and active community for resources, tutorials, and projects.
+
+![MicroController](https://github.com/mjtroniks/Mojobot/blob/d91b9694c7622a41186362987df0de14fe8cf188/MojobotPico/Micropython/Images/Raspberry-Pi-PICO-Pinout-Diagram.jpeg)
+
 ## Overview
 
-This tutorial is a quick guide to blinking an external LED using a Raspberry Pi Pico microcontroller.
+This tutorial is a quick guide to blinking an external LED using a Raspberry Pi Pico microcontroller. The experiment can be simulated or implemented practically.
+
+<iframe src="https://giphy.com/embed/yVYl3tMt6f3voxqnG7" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/yVYl3tMt6f3voxqnG7">via GIPHY</a></p>
 
 ## Instructions
 
-The robot LEDs are wired as in the following diagram:
+The robot left LED are wired as in the following diagram:
 
-![LEDs on Breadboard](https://github.com/mjtroniks/Mojobot/blob/4445f12cad92337dabb1a75218ab8db92b7634c7/MojobotPico/Micropython/Images/LED%20setup%20breadboard.jpg)
+![Single led](https://github.com/mjtroniks/Mojobot/blob/d91b9694c7622a41186362987df0de14fe8cf188/MojobotPico/Micropython/Images/Single%20led_bb.jpg)
 
 Left LED Connections:
 
