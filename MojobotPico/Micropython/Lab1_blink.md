@@ -6,7 +6,9 @@ This tutorial is a quick guide to blinking an external LED using a Raspberry Pi 
 
 ## Instructions
 
-Grab a BLUE LED or any LED rated for 3 volts. Insert the long pin into column 30 and the short pin into column 31 on the breadboard.
+The robot LEDs are wire as in the following diagram:
+
+![Blink Diagram](https://github.com/mjtroniks/Mojobot/blob/84f26b3aca53cf7d4844a77a390ed8effc3fa496/MojobotPico/Micropython/Images/LED%20setup%20breadboard.jpg)
 
 Connect the short side of the LED to the ground/negative rail of the breadboard. Then, connect the long side of the LED to column 20, corresponding to the GP16 pin of the Raspberry Pi Pico.
 
