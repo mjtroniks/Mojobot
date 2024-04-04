@@ -38,11 +38,11 @@ This tutorial is a quick guide to blinking the onboard LED using a Raspberry Pi 
     ![python verification_LI](https://github.com/mjtroniks/Mojobot/assets/91319956/4fcb745d-56cd-485c-ae5f-e6ecd9254859)
    
    
-3. Connect Raspberry Pi Pico to your Computer: Use a USB cable to connect your Raspberry Pi Pico to your computer.
+2. Connect Raspberry Pi Pico to your Computer using a USB mini cable
 
-4. Make sure Pycharm IDE is Installed and configured as in LAB0_IDE Setup
+3. Make sure Pycharm IDE is Installed and configured as in LAB0_IDE Setup
 
-5. Create a project and make sure create main.py is selected
+4. Create a project and make sure create main.py is selected
 
 ![Create new project](https://github.com/mjtroniks/Mojobot/assets/91319956/465d9c90-44bc-4e4b-89c8-d8ddb3b7082d)
 
