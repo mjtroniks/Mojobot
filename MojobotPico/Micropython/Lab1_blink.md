@@ -1,4 +1,4 @@
-# Blink External LED
+# Blink Onboard LED
 
 ## Introduction
 
