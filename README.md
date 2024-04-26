@@ -5,7 +5,7 @@
 Mojobot by MJtronics is an innovative robot designed for educational purposes and hobbyist projects, providing a versatile platform for learning and experimentation. 
 ## Get started
 
-- **[Micropython:]([https://github.com/mjtroniks/Mojobot/wiki](https://github.com/mjtroniks/Mojobot/wiki/Introduction-and-Blink-program) Visit our [Wiki](https://github.com/mjtroniks/Mojobot/wiki) to access all topics.
+- [**Micropython:]([https://github.com/mjtroniks/Mojobot/wiki](https://github.com/mjtroniks/Mojobot/wiki/Introduction-and-Blink-program) Visit our [Wiki](https://github.com/mjtroniks/Mojobot/wiki) to access all topics.
 - **C++:** Under development
 - **Makecode:** Under development
 
