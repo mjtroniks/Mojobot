@@ -5,7 +5,7 @@
 Mojobot by MJtronics is an innovative robot designed for educational purposes and hobbyist projects, providing a versatile platform for learning and experimentation. 
 ## Get started
 
-- **[Micropython:](https://github.com/mjtroniks/Mojobot/wiki)** The IDE used in this example is Pycharm 2022.3.1. Visit our [Wiki](https://github.com/mjtroniks/Mojobot/wiki) for a step by step setup. 
+- [**Micropython:**](https://github.com/mjtroniks/Mojobot/wiki/Introduction-and-Blink-program) Visit our [Wiki](https://github.com/mjtroniks/Mojobot/wiki) to access all topics.
 - **C++:** Under development
 - **Makecode:** Under development
 
@@ -49,8 +49,8 @@ Mojobot by MJtronics is an innovative robot designed for educational purposes an
 
 **RGB Headlights:**
 
-- Right LED (GP22, GP21, GP20) - RGB pins for the right LED.
-- Left LED (GP7, GP8, GP9) - RGB pins for the left LED.
+- Left LED (GP22, GP21, GP20) - RGB pins for the right LED.
+- Right LED (GP7, GP8, GP9) - RGB pins for the left LED.
 
 **Infrared Control:**
 
