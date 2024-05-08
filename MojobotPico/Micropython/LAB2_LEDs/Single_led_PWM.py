@@ -53,9 +53,9 @@ def main():
     init_pins()
 
     # Define the right RGB LED pins
-    led_red_right = Pin(22)
-    led_green_right = Pin(21)
-    led_blue_right = Pin(20)
+    led_red_right = Pin(7)
+    led_green_right = Pin(8)
+    led_blue_right = Pin(9)
 
     # Set up PWM for the right RGB LED
     pwm_red_right = PWM(led_red_right)
@@ -66,9 +66,9 @@ def main():
     pwm_green_right.freq(frequency)
 
     # Define the left RGB LED pins
-    led_red_left = Pin(7)
-    led_green_left = Pin(8)
-    led_blue_left = Pin(9)
+    led_red_left = Pin(22)
+    led_green_left = Pin(21)
+    led_blue_left = Pin(20)
 
     # Set up PWM for the left RGB LED
     pwm_red_left = PWM(led_red_left)

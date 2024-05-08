@@ -1,82 +1,52 @@
+#*****************************
+#* Developer: MJtronics
+#* Date: 2024-01-15
+#*****************************
+
+# Description:
+# This MicroPython script allows the user to interactively control the brightness of an LED using Pulse Width Modulation (PWM).
+# The script prompts the user to input a value in the range of 0 to 255, which represents the desired brightness level.
+# The input is then mapped to the PWM range (0 to 65535) and applied to the LED, creating a smooth brightness adjustment effect.
+
+# Pin Configuration:
+# LEDL (Left LED)
+# - R: GP22
+# - B: GP21
+# - G: GP20
+
+# LEDR (Right LED)
+# - R: GP7
+# - B: GP8
+# - G: GP9
+
 from machine import Pin, PWM
-from time import sleep
-import machine
 
-# Sensor pins
-left_sensor_pin = Pin(2, Pin.IN)
-right_sensor_pin = Pin(3, Pin.IN)
+# Function to map user input (0-255) to PWM range (0-65535)
+def map_user_input(user_input):
+    # Ensure user_input is within the valid range
+    user_input = max(0, min(255, user_input))
+    # Map the value to the PWM range
+    return int((user_input / 255) * 65535)
 
-# Motor 1 pins
-motor1_pwm_pin = Pin(10)
-motor1_dir_pin = Pin(12, machine.Pin.OUT)
-motor1_pwm = PWM(motor1_pwm_pin)
+# Function to set LED brightness using PWM
+def set_led_brightness(pwm, brightness):
+    pwm.duty_u16(brightness)
 
-# Motor 2 pins
-motor2_pwm_pin = Pin(11)
-motor2_dir_pin = Pin(13, machine.Pin.OUT)
-motor2_pwm = PWM(motor2_pwm_pin)
+# Define the LED pin for the Right LED (GP7)
+frequency = 5000
+led_pin_right = Pin(7)
 
-# LED pins
-left_led_pin = Pin(7, Pin.OUT)
-right_led_pin = Pin(22, Pin.OUT)
-
-blueR = Pin(21, Pin.OUT)
-blueL = Pin(9, Pin.OUT)
-
-# Set PWM frequency for motors
-pwm_frequency = 1000
-motor1_pwm.freq(pwm_frequency)
-motor2_pwm.freq(pwm_frequency)
-
-def motors_speed(left_wheel_speed, right_wheel_speed):
-    # Control direction
-    motor1_dir_pin.value(1 if left_wheel_speed > 0 else 0)
-    motor2_dir_pin.value(1 if right_wheel_speed > 0 else 0)
-
-    # Set PWM duty cycle
-    left_wheel_speed = max(0, min(100, abs(left_wheel_speed)))
-    left_wheel_speed = int((left_wheel_speed / 100) * 65535)
-    motor1_pwm.duty_u16(left_wheel_speed)
-
-    right_wheel_speed = max(0, min(100, abs(right_wheel_speed)))
-    right_wheel_speed = int((right_wheel_speed / 100) * 65535)
-    motor2_pwm.duty_u16(right_wheel_speed)
-
-def get_tracking():
-    left = left_sensor_pin.value()
-    right = right_sensor_pin.value()
-    print("left ",left,"  right",right)
-    if left == 1 and right == 1:
-        return 0
-    elif left == 0 and right == 1:
-        return 10
-    elif left == 1 and right == 0:
-        return 1
-    elif left == 0 and right == 0:
-        return 11
-    else:
-        print("Unknown ERROR")
+# Initialize PWM on the Right LED pin
+led_pwm_right = PWM(led_pin_right)
+led_pwm_right.freq(frequency)
 
 while True:
-    tracking_state = get_tracking()
-    print("State",tracking_state)
-    lastState = 0
-    if tracking_state == 10:
-        print("Left triggered")
-        motors_speed(5, 30)
-        left_led_pin.on()
-        right_led_pin.off()  # Turn on right LED
-        lastState = tracking_state
-    elif tracking_state == 1:
-        print("Right triggered")
-        motors_speed(30, 5)
-        left_led_pin.off()  # Turn on left LED
-        right_led_pin.on()
-        lastState = tracking_state
-    elif tracking_state == 00:
-        print("Both triggered")
-        left_led_pin.on()
-        right_led_pin.on()
-        motors_speed(30, 30)
-
-
+    try:
+        # Get user input from 0 to 255
+        user_input = int(input("Enter a value (0-255): "))
+        # Map user input to PWM range
+        pwm_value = map_user_input(user_input)
+        # Set Right LED brightness
+        set_led_brightness(led_pwm_right, pwm_value)
+    except ValueError:
+        print("Invalid input. Please enter a valid number.")

@@ -35,17 +35,18 @@ def set_led_brightness(pwm, brightness):
 # Define the LED pin for the Right LED (GP7)
 frequency = 5000
 led_pin_right = Pin(7)
-led_pin_right.freq(frequency)
+
 # Initialize PWM on the Right LED pin
 led_pwm_right = PWM(led_pin_right)
+led_pwm_right.freq(frequency)
 
 while True:
-    try:
+
         # Get user input from 0 to 255
         user_input = int(input("Enter a value (0-255): "))
         # Map user input to PWM range
         pwm_value = map_user_input(user_input)
         # Set Right LED brightness
         set_led_brightness(led_pwm_right, pwm_value)
-    except ValueError:
+
         print("Invalid input. Please enter a valid number.")

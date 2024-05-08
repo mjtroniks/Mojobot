@@ -1,5 +1,6 @@
-from machine import Pin, PWM
+from machine import Pin, PWM,time_pulse_us
 from time import sleep
+import utime
 import machine
 
 # Sensor pins
@@ -27,6 +28,11 @@ blueL = Pin(9, Pin.OUT)
 pwm_frequency = 1000
 motor1_pwm.freq(pwm_frequency)
 motor2_pwm.freq(pwm_frequency)
+
+distance_cm = 0
+# Ultrasonic sensor pins
+trigger_pin = Pin(14, Pin.OUT)
+echo_pin = Pin(15, Pin.IN)
 
 def motors_speed(left_wheel_speed, right_wheel_speed):
     # Control direction
@@ -57,10 +63,28 @@ def get_tracking():
     else:
         print("Unknown ERROR")
 
+def measure_distance():
+    # Trigger pulse to start measurement
+    trigger_pin.off()
+    utime.sleep_us(2)
+    trigger_pin.on()
+    utime.sleep_us(10)
+    trigger_pin.off()
+
+    # Measure the pulse width on the echo pin
+    pulse_width = time_pulse_us(echo_pin, 1, 30000)  # 30ms timeout (max range)
+    #speed of sound = 0.034 cm/us
+    # Calculate distance in centimeters
+    distance = pulse_width * 0.034 / 2 # division by 2 as we only need the time it takes to travel to the object
+
+    return round(distance)
+
 while True:
     tracking_state = get_tracking()
     print("State",tracking_state)
     lastState = 0
+    distance_cm = measure_distance()
+    utime.sleep_ms(100)
     if tracking_state == 10:
         print("Left triggered")
         motors_speed(5, 30)
@@ -74,9 +98,18 @@ while True:
         right_led_pin.on()
         lastState = tracking_state
     elif tracking_state == 00:
-        print("Both triggered")
-        left_led_pin.on()
-        right_led_pin.on()
-        motors_speed(30, 30)
+
+        if distance_cm <=3:
+            print("Both triggered")
+            left_led_pin.on()
+            right_led_pin.on()
+            motors_speed(0, 0)
+        else:
+            distance_cm = measure_distance()
+            utime.sleep_ms(100)
+            print("Both triggered")
+            left_led_pin.on()
+            right_led_pin.on()
+            motors_speed(30, 30)
 
 

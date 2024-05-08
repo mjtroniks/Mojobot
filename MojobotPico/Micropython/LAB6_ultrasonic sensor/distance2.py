@@ -42,7 +42,7 @@ def get_distance():
     # Calculate distance in centimeters
     distance = (pulse_width / 2) / 29.1
 
-    return distance
+    return round(distance)
 
 try:
     while True:
