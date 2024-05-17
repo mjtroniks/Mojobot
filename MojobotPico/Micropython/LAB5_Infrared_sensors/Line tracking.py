@@ -3,8 +3,8 @@ from time import sleep
 import machine
 
 # Sensor pins
-left_sensor_pin = Pin(2, Pin.IN)
-right_sensor_pin = Pin(3, Pin.IN)
+left_sensor_pin = Pin(3, Pin.IN)
+right_sensor_pin = Pin(2, Pin.IN)
 
 # Motor 1 pins
 motor1_pwm_pin = Pin(10)
@@ -17,11 +17,11 @@ motor2_dir_pin = Pin(13, machine.Pin.OUT)
 motor2_pwm = PWM(motor2_pwm_pin)
 
 # LED pins
-left_led_pin = Pin(7, Pin.OUT)
-right_led_pin = Pin(22, Pin.OUT)
+left_led_pin = Pin(22, Pin.OUT)
+right_led_pin = Pin(7, Pin.OUT)
 
-blueR = Pin(21, Pin.OUT)
-blueL = Pin(9, Pin.OUT)
+blueR = Pin(9, Pin.OUT)
+blueL = Pin(20, Pin.OUT)
 
 # Set PWM frequency for motors
 pwm_frequency = 1000
@@ -46,69 +46,34 @@ def get_tracking():
     left = left_sensor_pin.value()
     right = right_sensor_pin.value()
 
-    if left == 1 and right == 1:
+    if left == 0 and right == 0:
         return 0
     elif left == 0 and right == 1:
-        return 10
-    elif left == 1 and right == 0:
         return 1
-    elif left == 0 and right == 0:
+    elif left == 1 and right == 0:
+        return 10
+    elif left == 1 and right == 1:
         return 11
-    else:
-        print("Unknown ERROR")
+
 
 while True:
     tracking_state = get_tracking()
-    print("State",tracking_state)
-    lastState = 0
+
+
     if tracking_state == 10:
         print("Left triggered")
         motors_speed(5, 30)
         left_led_pin.on()
         right_led_pin.off()  # Turn on right LED
-        lastState = tracking_state
+
     elif tracking_state == 1:
         print("Right triggered")
         motors_speed(30, 5)
         left_led_pin.off()  # Turn on left LED
         right_led_pin.on()
-        lastState = tracking_state
+
     elif tracking_state == 11:
-        print("Both triggered")
-
-        if lastState == 1:
-            print("Off track")
-            motors_speed(30, 5)
-            left_led_pin.off()
-            right_led_pin.off()  # Turn off both LEDs
-        elif lastState == 10:
-            print("Off track")
-            motors_speed(5, 30)
-            left_led_pin.off()
-            right_led_pin.off()  # Turn off both LEDs
-        elif lastState == 11:
-            print("Off track")
-            motors_speed(5, 30)
-            left_led_pin.off()
-            right_led_pin.off()  # Turn off both LEDs
-        lastState = tracking_state
-    elif tracking_state == 00:
-        if lastState == 1:
-            print("Off track")
-            motors_speed(30, 5)
-            left_led_pin.off()
-            right_led_pin.off()  # Turn off both LEDs
-        elif lastState == 10:
-            print("Off track")
-            motors_speed(5, 30)
-            left_led_pin.off()
-            right_led_pin.off()  # Turn off both LEDs
-        elif lastState == 11:
-            print("Off track")
-            motors_speed(5, 30)
-            left_led_pin.off()
-            right_led_pin.off()  # Turn off both LEDs
-
-
-
-    #sleep(0.1)  # Adjust the delay as needed for your application
+        print("Line detected")
+        motors_speed(30, 30)
+        left_led_pin.on()  # Turn on left LED
+        right_led_pin.on()

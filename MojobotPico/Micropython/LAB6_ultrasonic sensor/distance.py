@@ -37,12 +37,9 @@ def measure_distance():
 
     return round(distance)
 
-try:
-    while True:
-        print("Measuring distance")
+
+while True:
+
         distance_cm = measure_distance()
         print("Distance:", distance_cm, "cm")
         utime.sleep_ms(100)  # Adjust sleep duration as needed
-
-except KeyboardInterrupt:
-    print("Measurement stopped by user")

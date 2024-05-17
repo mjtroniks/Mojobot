@@ -1,39 +1,61 @@
-from machine import Pin
-import utime
+from machine import Pin, PWM
+from time import sleep
+import machine
 
-# Line following sensors
-left_sensor_pin = Pin(2, Pin.IN)
-right_sensor_pin = Pin(3, Pin.IN)
+# Sensor pins
+left_sensor_pin = Pin(3, Pin.IN)
+right_sensor_pin = Pin(2, Pin.IN)
 
-# LEDs
-led_left = Pin(7, Pin.OUT)
-led_right = Pin(22, Pin.OUT)
+# LED pins
+left_led_pin = Pin(22, Pin.OUT)
+right_led_pin = Pin(7, Pin.OUT)
 
-# Previous sensor states
-prev_left_sensor_state = left_sensor_pin.value()
-prev_right_sensor_state = right_sensor_pin.value()
+blueR = Pin(9, Pin.OUT)
+blueL = Pin(20, Pin.OUT)
+
+
+def get_tracking():
+
+    left = left_sensor_pin.value()
+    right = right_sensor_pin.value()
+
+    if left == 0 and right == 0:
+        return 0
+    elif left == 0 and right == 1:
+        return 1
+    elif left == 1 and right == 0:
+        return 10
+    elif left == 1 and right == 1:
+        return 11
+
 
 while True:
-    # Read current sensor states
-    current_left_sensor_state = left_sensor_pin.value()
-    current_right_sensor_state = right_sensor_pin.value()
+    tracking_state = get_tracking()
 
-    # Check for changes in left sensor state
-    if current_left_sensor_state == 1 and current_right_sensor_state == 0:
-        print("Left sensor detected a line!")
-        led_left.on()  # Turn on left LED
-        led_right.off()
-    elif current_left_sensor_state == 0 and current_right_sensor_state == 1:
-        led_left.off()  # Turn on left LED
-        led_right.on()
-    # Check for changes in right sensor state
-    elif current_left_sensor_state == 0 and current_right_sensor_state == 0:
-        print("Right sensor detected a line!")
-        led_right.on()  # Turn on right LED
-    elif current_right_sensor_state == 1 and prev_right_sensor_state == 0:
-        led_left.off()  # Turn on left LED
-        led_right.off()
-    elif current_right_sensor_state == 1 and prev_right_sensor_state == 1:
-        led_left.on()  # Turn on left LED
-        led_right.on()
 
+    if tracking_state == 0:
+        print("Both sensor on a white reflective surface")
+        left_led_pin.off()
+        right_led_pin.off()  # Turn on right LED
+        blueR.on()
+        blueR.on()
+
+    elif tracking_state == 1:
+        print("Right triggered")
+        motors_speed(30, 5)
+        left_led_pin.off()  # Turn on left LED
+        right_led_pin.on()
+        blueR.off()
+        blueR.off()
+    elif tracking_state == 10:
+        print("Left triggered")
+        left_led_pin.on()
+        right_led_pin.off()  # Turn on right LED
+        blueR.off()
+        blueR.off()
+    elif tracking_state == 11:
+        print("Line detected")
+        left_led_pin.on()  # Turn on left LED
+        right_led_pin.on()
+        blueR.off()
+        blueR.off()
