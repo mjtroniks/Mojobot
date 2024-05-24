@@ -42,7 +42,7 @@ while True:
 
     elif tracking_state == 1:
         print("Right triggered")
-        motors_speed(30, 5)
+
         left_led_pin.off()  # Turn on left LED
         right_led_pin.on()
         blueR.off()

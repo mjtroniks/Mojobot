@@ -45,6 +45,7 @@ def measure_distance():
     distance = pulse_width * 0.034 / 2  # Speed of sound = 0.034 cm/us
 
     return round(distance)
+
 def motors_speed(left_wheel_speed, right_wheel_speed):
     # Control direction
     motor1_dir_pin.value(1 if left_wheel_speed > 0 else 0)
@@ -76,46 +77,28 @@ while True:
     tracking_state = get_tracking()
     distance_cm = measure_distance()
     #utime.sleep_ms(100)  # Adjust sleep duration as needed
-    if distance_cm >3 :
+    if distance_cm > 3:
         if tracking_state == 0:
-            timer = utime.ticks_ms()  # Start timer when both sensors detect white
-
-
-            while utime.ticks_diff(utime.ticks_ms(), timer) < 500 and tracking_state == 0:
-                 tracking_state = get_tracking()
-                 motors_speed(30, -30)  # Rotate in one direction
-                 left_led_pin.off()
-                 right_led_pin.off()  # Turn on right LED
-                 left_blue_led_pin.on()#
-                 right_blue_led_pin.on()
-            timer = utime.ticks_ms()  # Start timer when both sensors detect white
-
-            while utime.ticks_diff(utime.ticks_ms(), timer) < 1000 and tracking_state == 0:
-                 tracking_state = get_tracking()
-                 motors_speed(-30, 30)  # Switch direction
-                 left_led_pin.off()
-                 right_led_pin.off()  # Turn on right LED
-                 left_blue_led_pin.on()  #
-                 right_blue_led_pin.on()
-
+            tracking_state = get_tracking()
+            motors_speed(-10, 10)  # Turn right
+            utime.sleep_ms(200)
+            motors_speed(10, -10)  # Turn right
+            utime.sleep_ms(400)
         elif tracking_state == 10:
             tracking_state = get_tracking()
             motors_speed(-30, 30)  # Turn right
             left_led_pin.off()
             right_led_pin.on()  # Turn on right LED
-
         elif tracking_state == 1:
             tracking_state = get_tracking()
             motors_speed(30, -30)  # Turn left
             left_led_pin.on()  # Turn on left LED
             right_led_pin.off()
-
         elif tracking_state == 11:
             tracking_state = get_tracking()
-            motors_speed(60, 60)  # Move forward
+            motors_speed(50, 50)  # Move forward
             left_led_pin.on()  # Turn on left LED
             right_led_pin.on()  # Turn on right LED
-
     else:
         tracking_state = get_tracking()
         motors_speed(0,0)  # Turn left

@@ -112,7 +112,7 @@ while True:
 
         elif tracking_state == 11:
             tracking_state = get_tracking()
-            motors_speed(60, 60)  # Move forward
+            motors_speed(50, 50)  # Move forward
             left_led_pin.on()  # Turn on left LED
             right_led_pin.on()  # Turn on right LED
 
