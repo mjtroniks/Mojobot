@@ -1,121 +1,134 @@
 from machine import Pin, PWM, time_pulse_us
-import machine
 import utime
+import random
 
-# Ultrasonic sensor pins
-trigger_pin = Pin(14, Pin.OUT)
-echo_pin = Pin(15, Pin.IN)
-# Sensor pins
-left_sensor_pin = Pin(3, Pin.IN)
-right_sensor_pin = Pin(2, Pin.IN)
+class Motors:
+    def __init__(self, pwm_pin1, dir_pin1, pwm_pin2, dir_pin2, pwm_frequency):
+        self.motor1_pwm_pin = pwm_pin1
+        self.motor1_dir_pin = dir_pin1
+        self.motor2_pwm_pin = pwm_pin2
+        self.motor2_dir_pin = dir_pin2
+        self.motor1_pwm = PWM(Pin(self.motor1_pwm_pin))
+        self.motor1_dir = Pin(self.motor1_dir_pin, Pin.OUT)
+        self.motor2_pwm = PWM(Pin(self.motor2_pwm_pin))
+        self.motor2_dir = Pin(self.motor2_dir_pin, Pin.OUT)
+        self.motor1_pwm.freq(pwm_frequency)
+        self.motor2_pwm.freq(pwm_frequency)
 
-# Motor 1 pins
-motor1_pwm_pin = Pin(10)
-motor1_dir_pin = Pin(12, machine.Pin.OUT)
-motor1_pwm = PWM(motor1_pwm_pin)
+    def motors_speed(self, left_speed, right_speed):
+        # Control direction
+        self.motor1_dir.value(1 if left_speed > 0 else 0)
+        self.motor2_dir.value(1 if right_speed > 0 else 0)
 
-# Motor 2 pins
-motor2_pwm_pin = Pin(11)
-motor2_dir_pin = Pin(13, machine.Pin.OUT)
-motor2_pwm = PWM(motor2_pwm_pin)
+        # Set PWM duty cycle
+        left_speed = max(0, min(100, abs(left_speed)))
+        left_duty_cycle = int((left_speed / 100) * 65535)
+        self.motor1_pwm.duty_u16(left_duty_cycle)
 
-# LED pins
-left_led_pin = Pin(22, Pin.OUT)
-right_led_pin = Pin(7, Pin.OUT)
-left_blue_led_pin = Pin(20, Pin.OUT)
-right_blue_led_pin = Pin(9, Pin.OUT)
-# Set PWM frequency for motors
-pwm_frequency = 1000
-motor1_pwm.freq(pwm_frequency)
-motor2_pwm.freq(pwm_frequency)
-
-
-def measure_distance():
-    # Trigger pulse to start measurement
-    trigger_pin.off()
-    utime.sleep_us(2)
-    trigger_pin.on()
-    utime.sleep_us(10)
-    trigger_pin.off()
-
-    # Measure the pulse width on the echo pin
-    pulse_width = time_pulse_us(echo_pin, 1, 30000)  # 30ms timeout (max range)
-
-    # Calculate distance in centimeters
-    distance = pulse_width * 0.034 / 2  # Speed of sound = 0.034 cm/us
-
-    return round(distance)
-def motors_speed(left_wheel_speed, right_wheel_speed):
-    # Control direction
-    motor1_dir_pin.value(1 if left_wheel_speed > 0 else 0)
-    motor2_dir_pin.value(1 if right_wheel_speed > 0 else 0)
-
-    # Set PWM duty cycle
-    left_wheel_speed = max(0, min(100, abs(left_wheel_speed)))
-    left_wheel_speed = int((left_wheel_speed / 100) * 65535)
-    motor1_pwm.duty_u16(left_wheel_speed)
-
-    right_wheel_speed = max(0, min(100, abs(right_wheel_speed)))
-    right_wheel_speed = int((right_wheel_speed / 100) * 65535)
-    motor2_pwm.duty_u16(right_wheel_speed)
-
-def get_tracking():
-    left = left_sensor_pin.value()
-    right = right_sensor_pin.value()
-
-    if left == 0 and right == 0:
-        return 0
-    elif left == 0 and right == 1:
-        return 1
-    elif left == 1 and right == 0:
-        return 10
-    elif left == 1 and right == 1:
-        return 11
-
-while True:
-    tracking_state = get_tracking()
-    distance_cm = measure_distance()
-    #utime.sleep_ms(100)  # Adjust sleep duration as needed
-    if distance_cm >3 :
-        if tracking_state == 0:
-            timer = utime.ticks_ms()  # Start timer when both sensors detect white
+        right_speed = max(0, min(100, abs(right_speed)))
+        right_duty_cycle = int((right_speed / 100) * 65535)
+        self.motor2_pwm.duty_u16(right_duty_cycle)
 
 
-            while utime.ticks_diff(utime.ticks_ms(), timer) < 500 and tracking_state == 0:
-                 tracking_state = get_tracking()
-                 motors_speed(30, -30)  # Rotate in one direction
-                 left_led_pin.off()
-                 right_led_pin.off()  # Turn on right LED
-                 left_blue_led_pin.on()#
-                 right_blue_led_pin.on()
-            timer = utime.ticks_ms()  # Start timer when both sensors detect white
+class Sensors:
+    def __init__(self, trigger_pin, echo_pin, left_sensor_pin, right_sensor_pin):
+        self.trigger_pin = Pin(trigger_pin, Pin.OUT)
+        self.echo_pin = Pin(echo_pin, Pin.IN)
+        self.left_sensor_pin = Pin(left_sensor_pin, Pin.IN)
+        self.right_sensor_pin = Pin(right_sensor_pin, Pin.IN)
 
-            while utime.ticks_diff(utime.ticks_ms(), timer) < 1000 and tracking_state == 0:
-                 tracking_state = get_tracking()
-                 motors_speed(-30, 30)  # Switch direction
-                 left_led_pin.off()
-                 right_led_pin.off()  # Turn on right LED
-                 left_blue_led_pin.on()  #
-                 right_blue_led_pin.on()
+    def measure_distance(self):
+        self.trigger_pin.off()
+        utime.sleep_us(2)
+        self.trigger_pin.on()
+        utime.sleep_us(10)
+        self.trigger_pin.off()
 
-        elif tracking_state == 10:
-            tracking_state = get_tracking()
-            motors_speed(-30, 30)  # Turn right
-            left_led_pin.off()
-            right_led_pin.on()  # Turn on right LED
+        pulse_width = time_pulse_us(self.echo_pin, 1, 30000)  # 30ms timeout (max range)
+        distance = pulse_width * 0.034 / 2  # Speed of sound = 0.034 cm/us
+        return round(distance)
 
-        elif tracking_state == 1:
-            tracking_state = get_tracking()
-            motors_speed(30, -30)  # Turn left
-            left_led_pin.on()  # Turn on left LED
-            right_led_pin.off()
+    def get_tracking(self):
+        left = self.left_sensor_pin.value()
+        right = self.right_sensor_pin.value()
 
-        elif tracking_state == 11:
-            tracking_state = get_tracking()
-            motors_speed(60, 60)  # Move forward
-            left_led_pin.on()  # Turn on left LED
-            right_led_pin.on()  # Turn on right LED
+        if left == 0 and right == 0:
+            return 0
+        elif left == 0 and right == 1:
+            return 1
+        elif left == 1 and right == 0:
+            return 10
+        elif left == 1 and right == 1:
+            return 11
 
-    else:
-        tracking_state = get_tracking()
-        motors_speed(0,0)  # Turn left
+
+class CarRobot:
+    def __init__(self):
+        # LED pins
+        self.left_led_pin = Pin(22, Pin.OUT)
+        self.right_led_pin = Pin(7, Pin.OUT)
+
+        # Ultrasonic sensor pins
+        trigger_pin = 14
+        echo_pin = 15
+
+        # Sensor pins
+        left_sensor_pin = 3
+        right_sensor_pin = 2
+
+        # Motor 1 pins
+        motor1_pwm_pin = 10
+        motor1_dir_pin = 12
+
+        # Motor 2 pins
+        motor2_pwm_pin = 11
+        motor2_dir_pin = 13
+
+        # Set PWM frequency for motors
+        pwm_frequency = 1000
+
+        # Initialize motors
+        self.motors = Motors(pwm_pin1=motor1_pwm_pin, dir_pin1=motor1_dir_pin, pwm_pin2=motor2_pwm_pin, dir_pin2=motor2_dir_pin, pwm_frequency=pwm_frequency)
+
+        # Initialize sensors
+        self.sensors = Sensors(trigger_pin, echo_pin, left_sensor_pin, right_sensor_pin)
+
+    def generate_random_20(self):
+        return random.choice([-20, 20])
+
+    def run(self):
+        while True:
+            tracking_state = self.sensors.get_tracking()
+            distance_cm = self.sensors.measure_distance()
+            utime.sleep_ms(10)  # Adjust sleep duration as needed
+            print(distance_cm)
+            if distance_cm > 3:
+                if tracking_state == 0:
+                    tracking_state = self.sensors.get_tracking()
+                    speed = self.generate_random_20()
+                    self.motors.motors_speed(speed, -speed)  # Turn right
+                    utime.sleep_ms(200)
+
+                elif tracking_state == 10:
+                    tracking_state = self.sensors.get_tracking()
+                    self.motors.motors_speed(-30, 30)  # Turn right
+                    self.left_led_pin.off()
+                    self.right_led_pin.on()  # Turn on right LED
+                elif tracking_state == 1:
+                    tracking_state = self.sensors.get_tracking()
+                    self.motors.motors_speed(30, -30)  # Turn left
+                    self.left_led_pin.on()  # Turn on left LED
+                    self.right_led_pin.off()
+                elif tracking_state == 11:
+                    tracking_state = self.sensors.get_tracking()
+                    self.motors.motors_speed(50, 50)  # Move forward
+                    self.left_led_pin.on()  # Turn on left LED
+                    self.right_led_pin.on()  # Turn on right LED
+            else:
+                tracking_state = self.sensors.get_tracking()
+                self.motors.motors_speed(0, 0)  # Stop motors
+
+
+# Instantiate the CarRobot and run it
+car_robot = CarRobot()
+car_robot.run()
