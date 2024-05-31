@@ -1,13 +1,18 @@
-// LED_BUILTIN in connected to pin 25 of the RP2040 chip.
-// It controls the on board LED, at the top-left corner.
+// Define the LED pin
+const int LED_PIN = 25; // Onboard LED of the Raspberry Pi Pico
 
 void setup() {
-  pinMode(LED_BUILTIN, OUTPUT);
+  // Initialize the LED pin as an output
+  pinMode(LED_PIN, OUTPUT);
 }
 
 void loop() {
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(500);
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(500);
+  // Turn the LED on
+  digitalWrite(LED_PIN, HIGH);
+  // Wait for a second
+  delay(1000);
+  // Turn the LED off
+  digitalWrite(LED_PIN, LOW);
+  // Wait for a second
+  delay(1000);
 }

@@ -1,179 +1,156 @@
-// Define RGB LED pins for the right RGB LED
-const int led_red_right = 22;
-const int led_green_right = 20;
-const int led_blue_right = 21;
+#include <Arduino.h>
 
-// Define RGB LED pins for the left RGB LED
-const int led_red_left = 7;
-const int led_green_left = 9;
-const int led_blue_left = 8;
+// Ultrasonic sensor pins
+const int TRIGGER_PIN = 14;
+const int ECHO_PIN = 15;
 
-// Set up PWM for both right and left RGB LEDs
-const int frequency = 5000;
-const int resolution = 8;
-const int led_red_right_channel = 0;
-const int led_green_right_channel = 1;
-const int led_blue_right_channel = 2;
-const int led_red_left_channel = 3;
-const int led_green_left_channel = 4;
-const int led_blue_left_channel = 5;
+// Line follower sensor pins
+const int LEFT_SENSOR_PIN = 3;
+const int RIGHT_SENSOR_PIN = 2;
 
-// Define Motor 1 pins
-const int motor1_pwm_pin = 10;
-const int motor1_dir_pin = 12;
+// Motor 1 pins
+const int MOTOR1_PWM_PIN = 10;
+const int MOTOR1_DIR_PIN = 12;
 
-// Define Motor 2 pins
-const int motor2_pwm_pin = 11;
-const int motor2_dir_pin = 13;
+// Motor 2 pins
+const int MOTOR2_PWM_PIN = 11;
+const int MOTOR2_DIR_PIN = 13;
 
-// Define Infrared sensors
-const int infrared_left_pin = 2;
-const int infrared_right_pin = 3;
+// LEDs pins
+const int LED_PIN_LEFT = 22;
+const int LED_PIN_RIGHT = 7;
+const int LED_PIN_LEFT_BLUE = 20;
+const int LED_PIN_RIGHT_BLUE = 9;
 
-const int trigger_pin = 14;
-const int echo_pin = 15;
-int pwm_value;  // Define pwm_value for motor control
+// Set PWM frequency for motors
+const int PWM_FREQUENCY = 1000;
+
+// Function to measure distance using ultrasonic sensor
+long measure_distance() {
+    digitalWrite(TRIGGER_PIN, LOW);
+    delayMicroseconds(2);
+    digitalWrite(TRIGGER_PIN, HIGH);
+    delayMicroseconds(10);
+    digitalWrite(TRIGGER_PIN, LOW);
+    long duration = pulseIn(ECHO_PIN, HIGH);
+    long distance_cm = duration * 0.034 / 2;
+    return distance_cm;
+}
+
+// Function to set motor speeds
+void motors_speed(int left_wheel_speed, int right_wheel_speed) {
+    if (left_wheel_speed > 0) {
+    digitalWrite(MOTOR1_DIR_PIN, HIGH);
+  } else {
+    digitalWrite(MOTOR1_DIR_PIN, LOW);
+  }
+
+  if (right_wheel_speed > 0) {
+    digitalWrite(MOTOR2_DIR_PIN, HIGH);
+  } else {
+    digitalWrite(MOTOR2_DIR_PIN, LOW);
+  }
+
+  left_wheel_speed = abs(left_wheel_speed);
+  left_wheel_speed = constrain(left_wheel_speed, 0, 100);
+  int left_pwm_value = map(left_wheel_speed, 0, 100, 0, 255);
+  analogWrite(MOTOR1_PWM_PIN, left_pwm_value);
+
+  right_wheel_speed = abs(right_wheel_speed);
+  right_wheel_speed = constrain(right_wheel_speed, 0, 100);
+  int right_pwm_value = map(right_wheel_speed, 0, 100, 0, 255);
+  analogWrite(MOTOR2_PWM_PIN, right_pwm_value);
+}
+
+// Function to get tracking sensor state
+int get_tracking() {
+    int leftSensor = digitalRead(LEFT_SENSOR_PIN);
+    int rightSensor = digitalRead(RIGHT_SENSOR_PIN);
+
+    if (leftSensor == LOW && rightSensor == LOW) {
+        return 0;
+    } else if (leftSensor == LOW && rightSensor == HIGH) {
+        return 1;
+    } else if (leftSensor == HIGH && rightSensor == LOW) {
+        return 10;
+    } else if (leftSensor == HIGH && rightSensor == HIGH) {
+        return 11;
+    }
+    // Default return statement if none of the conditions are met
+    return -1; // or any other appropriate value
+}
+// Function to generate random value of -20 or 20
+int generate_random_20() {
+    // Seed the random number generator
+    randomSeed(analogRead(0)); // You can use any analog pin for seeding
+
+    // Generate a random value of -20 or 20
+    return random(2) ? -20 : 20;
+}
 
 void setup() {
-  // Set up RGB LEDs
-  pinMode(led_red_right, OUTPUT);
-  pinMode(led_green_right, OUTPUT);
-  pinMode(led_blue_right, OUTPUT);
-  pinMode(led_red_left, OUTPUT);
-  pinMode(led_green_left, OUTPUT);
-  pinMode(led_blue_left, OUTPUT);
+    // Initialize serial communication
+    Serial.begin(115200);
 
-  // Set up PWM for RGB LEDs
-  analogWriteFrequency(led_red_right_channel, frequency);
-  analogWriteFrequency(led_green_right_channel, frequency);
-  analogWriteFrequency(led_blue_right_channel, frequency);
-  analogWriteFrequency(led_red_left_channel, frequency);
-  analogWriteFrequency(led_green_left_channel, frequency);
-  analogWriteFrequency(led_blue_left_channel, frequency);
+    // Initialize ultrasonic sensor pins
+    pinMode(TRIGGER_PIN, OUTPUT);
+    pinMode(ECHO_PIN, INPUT);
 
-  // Set up Motors
-  pinMode(motor1_pwm_pin, OUTPUT);
-  pinMode(motor1_dir_pin, OUTPUT);
-  pinMode(motor2_pwm_pin, OUTPUT);
-  pinMode(motor2_dir_pin, OUTPUT);
+    // Initialize line follower sensor pins
+    pinMode(LEFT_SENSOR_PIN, INPUT);
+    pinMode(RIGHT_SENSOR_PIN, INPUT);
 
-  // Set up Infrared sensors
-  pinMode(infrared_left_pin, INPUT);
-  pinMode(infrared_right_pin, INPUT);
+    // Initialize motor pins
+    pinMode(MOTOR1_PWM_PIN, OUTPUT);
+    pinMode(MOTOR1_DIR_PIN, OUTPUT);
+    pinMode(MOTOR2_PWM_PIN, OUTPUT);
+    pinMode(MOTOR2_DIR_PIN, OUTPUT);
+
+    // Initialize LED pins
+    pinMode(LED_PIN_LEFT, OUTPUT);
+    pinMode(LED_PIN_RIGHT, OUTPUT);
+    pinMode(LED_PIN_LEFT_BLUE, OUTPUT);
+    pinMode(LED_PIN_RIGHT_BLUE, OUTPUT);
 }
 
 void loop() {
-  // Main Program
-  try {
-    int distance_cm = get_distance();
-    delay(100);  // To avoid measuring too frequently
-    int speed_percent = 40;
-    int speed_pwm = map_speed_to_pwm(speed_percent);
-    Serial.print("Distance: ");
-    Serial.println(distance_cm);
+    int tracking_state = get_tracking();
+    long distance_cm = measure_distance();
 
-    int current_infrared_left_state = digitalRead(infrared_left_pin);
-    int current_infrared_right_state = digitalRead(infrared_right_pin);
-    Serial.print("Infrared left: ");
-    Serial.print(current_infrared_left_state);
-    Serial.print("  Infrared right: ");
-    Serial.println(current_infrared_right_state);
-
-    if (distance_cm > 40) {
-      if (current_infrared_right_state == 1 && current_infrared_left_state == 0) {
-        set_rgb_led(led_red_right, led_green_right, led_blue_right, 17, 236, 229);
-        set_rgb_led(led_red_left, led_green_left, led_blue_left, 0, 0, 0);
-        stop_motors();
-      }
-      if (current_infrared_left_state == 1 && current_infrared_right_state == 0) {
-        set_rgb_led(led_red_right, led_green_right, led_blue_right, 0, 0, 0);
-        set_rgb_led(led_red_left, led_green_left, led_blue_left, 17, 236, 229);
-        stop_motors();
-      }
-      if (current_infrared_right_state == 0 && current_infrared_left_state == 0) {
-        set_rgb_led(led_red_right, led_green_right, led_blue_right, 0, 0, 0);
-        set_rgb_led(led_red_left, led_green_left, led_blue_left, 0, 0, 0);
-        stop_motors();
-      }
-      if (current_infrared_left_state == 1 && current_infrared_right_state == 1) {
-        set_rgb_led(led_red_right, led_green_right, led_blue_right, 0, 0, 0);
-        set_rgb_led(led_red_left, led_green_left, led_blue_left, 0, 0, 0);
-        stop_motors();
-      }
+    if (distance_cm > 3) {
+        if (tracking_state == 0) {
+            // No line detected
+            // No line detected
+            digitalWrite(LED_PIN_LEFT, LOW);
+            digitalWrite(LED_PIN_RIGHT, LOW);
+            int speed = generate_random_20();
+            motors_speed(speed, -speed);  // Turn right
+            delay(200);
+        }
+        else if (tracking_state == 1) {
+            // Left sensor on line
+            digitalWrite(LED_PIN_LEFT, HIGH);
+            digitalWrite(LED_PIN_RIGHT, LOW);
+            motors_speed(30, -30);  // Turn right
+        }
+        else if (tracking_state == 10) {
+            // Right sensor on line
+            digitalWrite(LED_PIN_LEFT, LOW);
+            digitalWrite(LED_PIN_RIGHT, HIGH);
+            motors_speed(-30, 30);  // Turn left
+        }
+        else if (tracking_state == 11) {
+            // Both sensors on line
+            digitalWrite(LED_PIN_LEFT, HIGH);
+            digitalWrite(LED_PIN_RIGHT, HIGH);
+            motors_speed(30, 30);  // Move forward
+        }
+    } else {
+        // Obstacle detected
+        digitalWrite(LED_PIN_LEFT, HIGH);
+        digitalWrite(LED_PIN_RIGHT, HIGH);
+        motors_speed(0, 0);  // Stop motors
     }
 
-    if (distance_cm > 5 && distance_cm < 20) {
-      pwm_value = map_user_input(255);
-      set_rgb_led(led_red_right, led_green_right, led_blue_right, 0, pwm_value, 0);
-      set_rgb_led(led_red_left, led_green_left, led_blue_left, 0, pwm_value, 0);
-      forward();
-    } else if (distance_cm > 20 && distance_cm < 40) {
-      pwm_value = map_user_input(255);
-      set_rgb_led(led_red_right, led_green_right, led_blue_right, pwm_value, 0, 0);
-      set_rgb_led(led_red_left, led_green_left, led_blue_left, pwm_value, 0, 0);
-      backward();
-    }
-  } catch (...) {
-    Serial.println("Invalid input. Please enter a valid number.");
-  }
+    delay(100);  // Adjust delay as needed
 }
-
-int get_distance() {
-  // Implement the ultrasonic distance measurement logic here
-}
-
-void set_rgb_led(int red_pin, int green_pin, int blue_pin, int r_value, int g_value, int b_value) {
-  analogWrite(red_pin, r_value);
-  analogWrite(green_pin, g_value);
-  analogWrite(blue_pin, b_value);
-}
-
-void stop_motors() {
-  analogWrite(motor1_pwm_pin, 0);
-  analogWrite(motor2_pwm_pin, 0);
-}
-
-void forward() {
-  digitalWrite(motor1_dir_pin, HIGH);
-  digitalWrite(motor2_dir_pin, HIGH);
-  analogWrite(motor1_pwm_pin, speed_pwm);
-  analogWrite(motor2_pwm_pin, speed_pwm);
-}
-int get_distance() {
-  // Trigger pulse to start measurement
-  digitalWrite(trigger_pin, LOW);
-  delayMicroseconds(2);
-  digitalWrite(trigger_pin, HIGH);
-  delayMicroseconds(10);
-  digitalWrite(trigger_pin, LOW);
-
-  // Measure the pulse width on the echo pin
-  long pulse_width = pulseIn(echo_pin, HIGH, 30000);  // 30ms timeout (max range)
-
-  // Calculate distance in centimeters
-  int distance = pulse_width / 58;
-
-  return distance;
-}
-
-void backward() {
-  digitalWrite(motor1_dir_pin, LOW);
-  digitalWrite(motor2_dir_pin, LOW);
-  analogWrite(motor1_pwm_pin, speed_pwm);
-  analogWrite(motor2_pwm_pin, speed_pwm);
-}
-
-int map_user_input(int user_input) {
-  // Ensure user_input is within the valid range
-  user_input = max(0, min(255, user_input));
-  // Map the value to the PWM range
-  return int((user_input / 255.0) * 65535.0);
-}
-
-int map_speed_to_pwm(int speed) {
-  // Ensure speed is within the valid range
-  speed = max(0, min(100, speed));
-  // Map the speed to the PWM range
-  return int((speed / 100.0) * 65535.0);
-}
-

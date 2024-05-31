@@ -45,5 +45,7 @@ void motors_speed(int left_wheel_speed, int right_wheel_speed) {
 void loop() {
   // Example usage
   motors_speed(30, 30);
-  delay(1000); // Delay for 1 second
+  delay(2000); // Delay for 1 second
+  motors_speed(0, 0);
+  delay(2000); // Delay for 1 second
 }

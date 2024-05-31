@@ -1,5 +1,5 @@
 // Define the LED pin
-const int LED_PIN = 22; // Onboard LED of the Raspberry Pi Pico
+const int LED_PIN = 25; // Onboard LED of the Raspberry Pi Pico
 
 void setup() {
   // Initialize the LED pin as an output
