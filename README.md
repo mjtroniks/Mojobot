@@ -49,8 +49,14 @@ Mojobot by MJtronics is an innovative robot designed for educational purposes an
 
 **RGB Headlights:**
 
-- Left LED (GP22, GP21, GP20) - RGB pins for the right LED.
-- Right LED (GP7, GP8, GP9) - RGB pins for the left LED.
+- Left LED (GP22, GP21, GP20) => 
+R 22
+G 21
+B 20
+- Right LED (GP7, GP8, GP9) => 
+R 7
+G 8
+B 9
 
 **Infrared Control:**
 
