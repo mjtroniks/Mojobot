@@ -52,12 +52,12 @@ Mojobot by MJtronics is an innovative robot designed for educational purposes an
 
 - Left LED (GP22, GP21, GP20) => 
 R 22
-G 21
-B 20
+G 20
+B 21
 - Right LED (GP7, GP8, GP9) => 
 R 7
-G 8
-B 9
+G 9
+B 8
 
 **Infrared Control:**
 
