@@ -32,7 +32,6 @@ Mojobot by MJtronics is an innovative robot designed for educational purposes an
 - 1 x Battery Holder
 - 1 x HC-SR04 Ultrasonic Sensor
 - 1 x Raspberry Pi Pico
-- 1 x MPU6050
 
 ### Pins Description
 
@@ -64,7 +63,7 @@ B 8
 - Left Infrared Sensor (GP2) - Input pin for the left infrared sensor.
 - Right Infrared Sensor (GP3) - Input pin for the right infrared sensor.
 
-**MPU6050:**
+**I2C:**
 
 - SCL GP19
 - SDA GP18
