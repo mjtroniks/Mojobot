@@ -1,4 +1,4 @@
-# Mojobot by MJtronics
+# Mojobot Pico by MJtronics
  ![alt text](https://github.com/mjtroniks/Mojobot/blob/4d80b0dbb44b8dbe23df34b33c5dae10a4e39261/MojobotPico/Micropython/Images/Assembly.PNG)
 ## Introduction
 
