@@ -26,10 +26,16 @@ This program can be implemented to verify that all hardware is working as expect
 
 import machine
 import utime
+from machine import Pin, time_pulse_us
+import utime
+
+# Turn on the onboard LED to indicate the program has started
+onboard_led = machine.Pin(25, machine.Pin.OUT)
+onboard_led.value(1)
 
 # Pin configuration
-ultrasonic_trigger = machine.Pin(14, machine.Pin.OUT)
-ultrasonic_echo = machine.Pin(15, machine.Pin.IN)
+trigger_pin = Pin(14, Pin.OUT)
+echo_pin = Pin(15, Pin.IN)
 
 led_left_red = machine.PWM(machine.Pin(22))
 led_left_green = machine.PWM(machine.Pin(20))
@@ -60,24 +66,23 @@ motor2_pwm.freq(1000)
 
 # Function to measure distance using ultrasonic sensor
 def measure_distance():
-    ultrasonic_trigger.low()
+    # Trigger pulse to start measurement
+    trigger_pin.off()
     utime.sleep_us(2)
-    ultrasonic_trigger.high()
+    trigger_pin.on()
     utime.sleep_us(10)
-    ultrasonic_trigger.low()
+    trigger_pin.off()
 
-    while ultrasonic_echo.value() == 0:
-        signaloff = utime.ticks_us()
-    while ultrasonic_echo.value() == 1:
-        signalon = utime.ticks_us()
+    # Measure the pulse width on the echo pin
+    pulse_width = time_pulse_us(echo_pin, 1, 30000)  # 30ms timeout (max range)
 
-    time_passed = signalon - signaloff
-    distance = (time_passed * 0.0343) / 2
+    # Calculate distance in centimeters
+    distance = pulse_width * 0.034 / 2  # Speed of sound = 0.034 cm/us
     return distance
 
 # Function to control LED brightness based on distance
 def control_red_leds_by_distance():
-    print("Controlling Red LEDs by Distance")
+    #print("Controlling Red LEDs by Distance")
     led_left_red.duty_u16(0)
     led_right_red.duty_u16(0)
     led_left_blue.duty_u16(0)
@@ -88,7 +93,7 @@ def control_red_leds_by_distance():
     motor2_pwm.duty_u16(0)
     for _ in range(500):
         distance = measure_distance()
-        print("Distance:", distance)
+        #print("Distance:", distance)
         if distance <= 5:
             pwm_value = 0
         elif distance >= 40:
@@ -105,12 +110,12 @@ def control_red_leds_by_distance():
 
 # Function to control blue LEDs based on infrared sensors
 def control_blue_leds_by_infrared():
-    print("Controlling Blue LEDs by Infrared Sensors")
+    #print("Controlling Blue LEDs by Infrared Sensors")
 
     for _ in range(500):
         left_value = infrared_left.value()
         right_value = infrared_right.value()
-        print("Infrared Left:", left_value, "Infrared Right:", right_value)
+        #print("Infrared Left:", left_value, "Infrared Right:", right_value)
 
         if left_value == 1:
             led_left_blue.duty_u16(65535)
@@ -129,7 +134,7 @@ def control_blue_leds_by_infrared():
 
 # Function to control motors and green LEDs based on distance
 def control_motors_and_green_leds():
-    print("Controlling Motors and Green LEDs")
+    #print("Controlling Motors and Green LEDs")
 
     # Function to map distance to PWM value
     def map_distance_to_pwm(distance):
@@ -145,7 +150,7 @@ def control_motors_and_green_leds():
     motor2_pwm.duty_u16(0)  # Ensure right motor is off
     for _ in range(500):
         distance = measure_distance()
-        print("Distance (Left Motor):", distance)
+        #print("Distance (Left Motor):", distance)
         pwm_value = map_distance_to_pwm(distance)
 
         motor1_pwm.duty_u16(pwm_value)
@@ -161,7 +166,7 @@ def control_motors_and_green_leds():
     motor1_pwm.duty_u16(0)  # Ensure left motor is off
     for _ in range(500):
         distance = measure_distance()
-        print("Distance (Right Motor):", distance)
+        #print("Distance (Right Motor):", distance)
         pwm_value = map_distance_to_pwm(distance)
 
         motor2_pwm.duty_u16(pwm_value)
@@ -176,6 +181,7 @@ def control_motors_and_green_leds():
 
 # Test sequence
 def test_robot():
+
     control_red_leds_by_distance()
     control_blue_leds_by_infrared()
     control_motors_and_green_leds()
