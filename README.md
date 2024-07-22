@@ -60,8 +60,8 @@ B 8
 
 **Infrared Control:**
 
-- Left Infrared Sensor (GP2) - Input pin for the left infrared sensor.
-- Right Infrared Sensor (GP3) - Input pin for the right infrared sensor.
+- Left Infrared Sensor (GP3) - Input pin for the left infrared sensor.
+- Right Infrared Sensor (GP2) - Input pin for the right infrared sensor.
 
 **I2C:**
 
