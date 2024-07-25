@@ -1,5 +1,5 @@
 # Mojobot Pico by MJtroniks
- ![alt text](https://github.com/mjtroniks/Mojobot/blob/4d80b0dbb44b8dbe23df34b33c5dae10a4e39261/MojobotPico/Micropython/Images/Assembly.PNG)
+[ ![alt text](https://github.com/mjtroniks/Mojobot/blob/4d80b0dbb44b8dbe23df34b33c5dae10a4e39261/MojobotPico/Micropython/Images/Assembly.PNG)](https://github.com/user-attachments/assets/8ce8e9cc-e923-49d6-9cca-5eeadf6caf4b)
 ## Introduction
 
 Mojobot Pico by MJtronics is an innovative robot based on Raspberry pico designed for educational purposes and hobbyist projects, providing a versatile platform for learning and experimentation. 
